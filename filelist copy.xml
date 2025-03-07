@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<contentpackage name="32x Stack" modversion="1.0.20" corepackage="False" steamworkshopid="2683570256" gameversion="1.6.17.0" expectedhash="1ED9097EEA62BE611E732ACCB1FED11D">
+  <Item file="%ModDir%/CreatureLoot/creatureloot.xml" />
+  <Item file="%ModDir%/Electricity/poweritems.xml" />
+  <Item file="%ModDir%/Electricity/signalitems.xml" />
+  <Item file="%ModDir%/Gardening/growableplants.xml" />
+  <Item file="%ModDir%/Gardening/plantproducts.xml" />
+  <Item file="%ModDir%/Jobgear/captain_talent_items.xml" />
+  <Item file="%ModDir%/Jobgear/engineer_talent_items.xml" />
+  <Item file="%ModDir%/Jobgear/medic_talent_items.xml" />
+  <Item file="%ModDir%/Jobgear/securityofficer_talent_items.xml" />
+  <Item file="%ModDir%/Materials/materials.xml" />
+  <Item file="%ModDir%/Materials/medmaterials.xml" />
+  <Other file="%ModDir%/Materials/Minerals.png" />
+  <Item file="%ModDir%/Materials/minerals.xml" />
+  <Item file="%ModDir%/Medical/buffs.xml" />
+  <Item file="%ModDir%/Medical/medical.xml" />
+  <Other file="%ModDir%/Medical/Medicines.png" />
+  <Item file="%ModDir%/Medical/poisons.xml" />
+  <Item file="%ModDir%/Misc/misc.xml" />
+  <Item file="%ModDir%/Tools/tools.xml" />
+  <Item file="%ModDir%/Weapons/weapons.xml" />
+</contentpackage>

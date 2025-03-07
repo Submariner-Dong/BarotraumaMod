@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Override>
+  <Item name="" identifier="pipetobacco" category="Misc" maxstacksize="64" maxstacksizecharacterinventory="64" Tags="smallitem,pipetobacco" cargocontaineridentifier="metalcrate" scale="0.5" impactsoundtag="impact_metal_light" isshootable="true">
+    <PreferredContainer primary="captainspipe" spawnprobability="1" />
+    <PreferredContainer primary="crewcab" spawnprobability="0.05" notcampaign="true" />
+    <PreferredContainer secondary="wreckcrewcab,abandonedcrewcab,piratecrewcab" spawnprobability="0.1" />
+    <Price baseprice="120">
+      <Price storeidentifier="merchantoutpost" multiplier="1.1" minavailable="1" />
+      <Price storeidentifier="merchantcity" multiplier="0.9" minavailable="2" />
+      <Price storeidentifier="merchantresearch" sold="false" />
+      <Price storeidentifier="merchantmilitary" sold="false" />
+      <Price storeidentifier="merchantmine" sold="false" />
+    </Price>
+    <Fabricate suitablefabricators="vendingmachine" requiredtime="1" requiredmoney="190" fabricationlimitmin="0" fabricationlimitmax="10" />
+    <Fabricate suitablefabricators="fabricator" requiredtime="20">
+      <RequiredSkill identifier="helm" level="30" />
+      <Item identifier="tobaccobud" />
+      <Item identifier="tobaccobud" />
+      <Item identifier="tobaccobud" />
+    </Fabricate>
+    <Deconstruct time="20">
+      <Item identifier="tobaccobud" />
+    </Deconstruct>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas2.png" sourcerect="192,320,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Gardening/GrowablePlants_Temp.png" sourcerect="848,774,44,58" depth="0.55" origin="0.5,0.5" />
+    <Body width="40" height="50" density="10.5" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect">
+      <StatusEffect type="OnBroken" target="This">
+        <Remove />
+      </StatusEffect>
+    </Holdable>
+  </Item>
+</Override>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Override>
+  <Items>
+    <Item name="" identifier="alienblood" category="Medical" maxstacksize="64" maxstacksizecharacterinventory="64" cargocontaineridentifier="chemicalcrate" description="" Tags="smallitem,chem,medical" useinhealthinterface="true" scale="0.5" RequireAimToUse="True">
+      <Upgrade gameversion="0.10.0.0" scale="0.5" />
+      <PreferredContainer primary="medfabcab" secondary="medcontainer" />
+      <PreferredContainer secondary="storageorgan" minamount="1" maxamount="2" spawnprobability="1" />
+      <Price baseprice="100" sold="false">
+        <Price storeidentifier="merchantoutpost" multiplier="0.85" />
+        <Price storeidentifier="merchantcity" multiplier="0.85" />
+        <Price storeidentifier="merchantresearch" sold="true" multiplier="1.2" minavailable="2" />
+        <Price storeidentifier="merchantmilitary" multiplier="0.9" />
+        <Price storeidentifier="merchantmine" multiplier="0.85" />
+      </Price>
+      <SuitableTreatment type="bloodloss" suitability="10" />
+      <SuitableTreatment type="psychosis" suitability="-45" />
+      <SuitableTreatment type="damage" suitability="-10" />
+      <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="448,771,64,64" origin="0.5,0.5" />
+      <Sprite texture="Content/Items/CreatureLoot/CreatureLoot.png" sourcerect="1,128,30,58" depth="0.6" origin="0.5,0.5" />
+      <Body width="30" height="55" density="11" />
+      <Holdable canBeCombined="true" removeOnCombined="true" slots="Any,RightHand,LeftHand" holdangle="10" handle1="0,0" msg="ItemMsgPickUpSelect">
+        <RequiredSkill identifier="medical" level="35" />
+        <StatusEffect type="OnUse" target="This" Condition="-100.0" disabledeltatime="true">
+          <Sound file="Content/Items/Medical/Syringe.ogg" range="500" />
+        </StatusEffect>
+        <StatusEffect tags="medical" type="OnSuccess" target="UseTarget, This" duration="15">
+          <ReduceAffliction identifier="bloodloss" amount="6" />
+          <Affliction identifier="psychosis" amount="3" />
+          <Affliction identifier="organdamage" amount="0.65" />
+        </StatusEffect>
+        <StatusEffect tags="medical" type="OnFailure" target="UseTarget, This" duration="15">
+          <ReduceAffliction identifier="bloodloss" amount="3" />
+          <Affliction identifier="psychosis" amount="3" />
+          <Affliction identifier="organdamage" amount="0.65" />
+        </StatusEffect>
+        <!-- Remove the item when fully used -->
+        <StatusEffect type="OnBroken" target="This">
+          <Remove />
+        </StatusEffect>
+      </Holdable>
+      <SkillRequirementHint identifier="medical" level="35" />
+    </Item>
+  </Items>
+</Override>

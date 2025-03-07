@@ -25,7 +25,7 @@
       <sprite name="ToolBelt" texture="Content/Items/Tools/tools.png" sourcerect="256,102,112,54" limb="Torso" inherittexturescale="true" origin="0.5,-0.2" />
     </Wearable>
     <Holdable slots="RightHand+LeftHand" holdpos="0,-70" handle1="-5,0" handle2="10,-20" holdangle="0" msg="ItemMsgPickUpUse" canbeselected="false" canbepicked="true" pickkey="Use" allowswappingwhenpicked="false" />
-    <ItemContainer capacity="6" maxstacksize="32" depth="0.5" >
+    <ItemContainer capacity="6" maxstacksize="64" depth="0.5" >
       <Containable items="smallitem" excludeditems="toolbelt,toolbox,bandolier" />
     </ItemContainer>
     <Upgrade gameversion="0.10.0.0" scale="0.5" />
@@ -62,7 +62,7 @@
       <StatusEffect type="OnActive" target="Character" SpeedMultiplier="0.7" setvalue="true" disabledeltatime="true" />
       <StatValue stattype="PropulsionSpeed" value="-0.3" />
     </Holdable>
-    <ItemContainer capacity="12" maxstacksize="32" depth="0.5" >
+    <ItemContainer capacity="12" maxstacksize="64" depth="0.5" >
       <Containable items="smallitem" excludeditems="toolbelt,toolbox,bandolier" />
     </ItemContainer>
   </Item>
@@ -99,7 +99,7 @@
         </StatusEffect>
       </Attack>
     </MeleeWeapon>
-    <ItemContainer capacity="12" maxstacksize="32" keepopenwhenequipped="true" movableframe="true" QuickUseMovesItemsInside="false">
+    <ItemContainer capacity="12" maxstacksize="64" keepopenwhenequipped="true" movableframe="true" QuickUseMovesItemsInside="false">
       <Containable items="smallitem" />
     </ItemContainer>
     <aitarget sightrange="1000" soundrange="1000" fadeouttime="2" />
@@ -784,7 +784,7 @@
     <Upgrade gameversion="0.10.0.0" scale="0.5" />
   </Item>
   
-  <Item name="" identifier="flare" category="Equipment" maxstacksize="32" maxstacksizecharacterinventory="8" cargocontaineridentifier="metalcrate" Scale="0.5" tags="smallitem,light,provocative" impactsoundtag="impact_soft" isshootable="true" damagedbymonsters="true" health="10">
+  <Item name="" identifier="flare" category="Equipment" maxstacksize="64" maxstacksizecharacterinventory="8" cargocontaineridentifier="metalcrate" Scale="0.5" tags="smallitem,light,provocative" impactsoundtag="impact_soft" isshootable="true" damagedbymonsters="true" health="10">
     <PreferredContainer primary="divingcab" minamount="2" maxamount="5" spawnprobability="1" notcampaign="true" notpvp="true"/>
     <PreferredContainer secondary="abandonedstoragecab,piratestoragecab,wreckstoragecab" amount="1" spawnprobability="0.05"/>
     <PreferredContainer secondary="outpostcrewcabinet" amount="1" spawnprobability="0.1"/>
@@ -823,7 +823,7 @@
     <Upgrade gameversion="0.10.0.0" scale="0.5" />
   </Item>
     
-  <Item name="" identifier="alienflare" category="Equipment,Alien" maxstacksize="32" maxstacksizecharacterinventory="8" cargocontaineridentifier="metalcrate" Scale="0.5" tags="smallitem,light,provocative" impactsoundtag="impact_soft" isshootable="true" damagedbymonsters="true" health="10">
+  <Item name="" identifier="alienflare" category="Equipment,Alien" maxstacksize="64" maxstacksizecharacterinventory="8" cargocontaineridentifier="metalcrate" Scale="0.5" tags="smallitem,light,provocative" impactsoundtag="impact_soft" isshootable="true" damagedbymonsters="true" health="10">
     <PreferredContainer primary="divingcab"/>
     <PreferredContainer secondary="abandonedstoragecab,piratestoragecab,wreckstoragecab" amount="1" spawnprobability="0.01"/>
     <PreferredContainer primary="ruinstorage,ruinstoragesmall" minamount="1" maxamount="3" spawnprobability="0.2" />
@@ -1502,7 +1502,7 @@
     <SkillRequirementHint identifier="weapons" level="40" />
   </Item>
 
-  <Item name="" identifier="glowstick" category="Equipment" maxstacksize="32" maxstacksizecharacterinventory="8" cargocontaineridentifier="metalcrate" Scale="0.5" tags="smallitem,light,provocative" impactsoundtag="impact_soft" isshootable="true" damagedbymonsters="true" health="10">
+  <Item name="" identifier="glowstick" category="Equipment" maxstacksize="64" maxstacksizecharacterinventory="8" cargocontaineridentifier="metalcrate" Scale="0.5" tags="smallitem,light,provocative" impactsoundtag="impact_soft" isshootable="true" damagedbymonsters="true" health="10">
     <PreferredContainer primary="divingcab" minamount="3" maxamount="5" spawnprobability="1" notcampaign="true"/>
     <PreferredContainer secondary="outpostcrewcabinet" amount="1" spawnprobability="0.1"/>
     <Price baseprice="45" minavailable="6" displaynonempty="true">
