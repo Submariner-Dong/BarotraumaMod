@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Items>
-  <Item name="" identifier="oxygentankMOD" category="Diving,Equipment" maxstacksize="8" Tags="smallitem,oxygensource,refillableoxygensource" cargocontaineridentifier="metalcrate" scale="0.5" impactsoundtag="impact_metal_light" allowdroppingonswap="true">
+  <Item name="" identifier="afflictionoxygen" category="Diving,Equipment" maxstacksize="32" Tags="smallitem,oxygensource,refillableoxygensource" cargocontaineridentifier="metalcrate" scale="0.5" impactsoundtag="impact_metal_light" allowdroppingonswap="true">
     <Upgrade gameversion="0.10.0.0" scale="0.5" />
+    <Price baseprice="100" sold="false">
+      <Price storeidentifier="merchantoutpost" multiplier="0.85" />
+      <Price storeidentifier="merchantcity" multiplier="0.85" />
+      <Price storeidentifier="merchantresearch" sold="true" multiplier="1.2" minavailable="2" />
+      <Price storeidentifier="merchantmilitary" multiplier="0.9" />
+      <Price storeidentifier="merchantmine" multiplier="0.85" />
+    </Price>
+    <Deconstruct time="2">
+      <Item identifier="steel" />
+    </Deconstruct>
+    <Fabricate suitablefabricators="fabricator" requiredtime="10">
+      <RequiredSkill identifier="mechanical" level="10" />
+      <RequiredItem identifier="steel" amount="1" />
+    </Fabricate>
     <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="896,0,64,64" origin="0.5,0.5" />
     <Sprite texture="Content/Items/Tools/tools.png" sourcerect="410,71,24,66" depth="0.55" origin="0.5,0.5" />
     <Body width="22" height="64" density="9.7" />
     <Holdable canbecombined="true" slots="Any,RightHand,LeftHand" holdpos="30,-15" handle1="0,5" handle2="0,-5" msg="ItemMsgPickUpSelect">
     </Holdable>
+    <StatusEffect type="OnUse" targettype="Contained" targets="oxygensource" Condition="-1.0" />
+    <StatusEffect type="OnUse" targettype="Contained" targets="oxygensource">
+      <Affliction identifier="vigor" strength="100" />
+    </StatusEffect>
   </Item>
 </Items>
