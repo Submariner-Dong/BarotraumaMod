@@ -21,9 +21,8 @@
     <Body width="22" height="64" density="9.7" />
     <Holdable canbecombined="true" slots="Any,RightHand,LeftHand" holdpos="30,-15" handle1="0,5" handle2="0,-5" msg="ItemMsgPickUpSelect">
     </Holdable>
-    <StatusEffect type="OnUse" targettype="Contained" targets="oxygensource" Condition="-1.0" />
-    <StatusEffect type="OnUse" targettype="Contained" targets="oxygensource">
-      <Affliction identifier="vigor" strength="100" />
-    </StatusEffect>
+    <StatusEffect type="OnUse" target="This">
+        <Explosion range="150.0" force="5" shockwave="false" smoke="false" flames="false" flash="false" sparks="false" underwaterbubble="false" camerashake="6.0" />
+      </StatusEffect>
   </Item>
 </Items>
