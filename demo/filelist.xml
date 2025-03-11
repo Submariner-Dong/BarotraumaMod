@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<contentpackage name="BarotraumaMod" modversion="1.0.0" corepackage="False" gameversion="1.6.17.0">
+    <item file="%ModDir%/test.xml" />
+</contentpackage>
