@@ -179,10 +179,21 @@ end
 local function setAmount(ch, id, value)
     local a = findAff(ch, id)
     if a == nil then
-        if value > 0 then applyAmount(ch, id, value) end
-        return
+        if value <= 0 then return end
+        applyAmount(ch, id, 1)   -- create it, then overwrite the value
+        a = findAff(ch, id)
+        if a == nil then return end
     end
+    -- direct assignment bypasses the engine's 100/MaxVitality normalisation
     pcall(function() a.Strength = value end)
+end
+
+local function addAmount(ch, id, delta)
+    if delta == nil or delta == 0 then return end
+    local cur = amount(ch, id)
+    local target = cur + delta
+    if target < 0 then target = 0 end
+    setAmount(ch, id, target)
 end
 
 local function currentSeq(ch)
@@ -248,7 +259,7 @@ Hook.Add("lotm.potion", "lotm.potion", function(effect, deltaTime, item, targets
     local cur = currentSeq(ch)
 
     if cur ~= nil and seq == cur then
-        applyAmount(ch, MADNESS, 20)
+        addAmount(ch, MADNESS, 20)
         tell("lotm.msg.potion_same", COLOR_WARN)
         checkLoseControl(ch)
         return true
@@ -267,7 +278,7 @@ Hook.Add("lotm.potion", "lotm.potion", function(effect, deltaTime, item, targets
     end
 
     local gain = 6 + risk * 0.6
-    applyAmount(ch, MADNESS, gain)
+    addAmount(ch, MADNESS, gain)
 
     if risk <= 0 then
         tell("lotm.msg.potion_ok", COLOR_NORMAL)
@@ -282,6 +293,21 @@ Hook.Add("lotm.potion", "lotm.potion", function(effect, deltaTime, item, targets
     end
 end)
 
+-- ============================================================
+-- sequence application (direct assignment, no vitality scaling)
+-- ============================================================
+Hook.Add("lotm.seq", "lotm.seq", function(effect, deltaTime, item, targets, worldPosition, element)
+    local seq = 9
+    pcall(function()
+        local v = element.GetAttributeString("custom", "9")
+        if v ~= nil then seq = tonumber(v) or 9 end
+    end)
+    local ch = nil
+    if targets ~= nil then ch = targets[1] end
+    if ch == nil then return end
+    setAmount(ch, SEQ[seq].buff, 100)
+    setAmount(ch, SPIRIT, 100)
+end)
 -- ============================================================
 -- divination
 -- ============================================================
@@ -329,13 +355,13 @@ local function divine(question, client)
 
     local sp = amount(ch, SPIRIT)
     if sp < DIVINE_COST then
-        applyAmount(ch, MADNESS, 5)
+        addAmount(ch, MADNESS, 5)
         reply("lotm.msg.no_spirit_divine", COLOR_BAD, client)
         return
     end
 
     setAmount(ch, SPIRIT, sp - DIVINE_COST)
-    applyAmount(ch, SEQ[cur].digest, DIVINE_DIGEST)
+    addAmount(ch, SEQ[cur].digest, DIVINE_DIGEST)
 
     local acc = 0.4 + amount(ch, SEQ[cur].digest) * 0.006
     local q = string.lower(tostring(question or ""))
@@ -401,7 +427,7 @@ local function toggleVision(client)
     end
 
     visionOn[ch.ID] = true
-    applyAmount(ch, VISION, 100)
+    setAmount(ch, VISION, 100)
     reply("lotm.msg.vision_on", COLOR_NORMAL, client)
 end
 
@@ -443,7 +469,7 @@ local function logicTick()
             if sp <= VISION_DRAIN then
                 visionOn[ch.ID] = nil
                 setAmount(ch, VISION, 0)
-                applyAmount(ch, SICK, 100)
+                setAmount(ch, SICK, 100)
                 tell("lotm.msg.vision_collapse", COLOR_BAD)
             else
                 setAmount(ch, SPIRIT, sp - VISION_DRAIN)
@@ -469,7 +495,7 @@ local function bar(value, maxValue, cells)
     return "[" .. string.rep("=", filled) .. string.rep("-", cells - filled) .. "]"
 end
 
-local HUD_PRESETS = { 96, 250, 470 }
+local HUD_PRESETS = { { 0, 96 }, { 0, 250 }, { 0, 470 }, { -680, 120 }, { -680, 420 } }
 local hudPanel = nil
 local hudPreset = 1
 
@@ -515,7 +541,7 @@ local function buildHUD()
 
         -- sits above the vanilla character panel in the bottom-right corner
         local panel = GUI.Frame(GUI.RectTransform(Point(320, 104), hudRoot.RectTransform, GUI.Anchor.TopCenter), "GUITextBox")
-        panel.RectTransform.AbsoluteOffset = Point(0, HUD_PRESETS[hudPreset])
+        panel.RectTransform.AbsoluteOffset = Point(HUD_PRESETS[hudPreset][1], HUD_PRESETS[hudPreset][2])
         hudPanel = panel
         panel.RectTransform.MinSize = Point(320, 104)
         panel.CanBeFocused = false
@@ -664,7 +690,7 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
         if message == a then
             hudPreset = hudPreset % #HUD_PRESETS + 1
             if hudPanel ~= nil then
-                pcall(function() hudPanel.RectTransform.AbsoluteOffset = Point(0, HUD_PRESETS[hudPreset]) end)
+                pcall(function() hudPanel.RectTransform.AbsoluteOffset = Point(HUD_PRESETS[hudPreset][1], HUD_PRESETS[hudPreset][2]) end)
             end
             send("[LOTM] position " .. tostring(hudPreset), COLOR_NORMAL, client)
             return true

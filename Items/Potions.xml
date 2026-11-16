@@ -111,8 +111,7 @@
         <Hook name="lotm.potion" custom="9" />
       </StatusEffect>
       <StatusEffect type="OnUse" target="UseTarget" disabledeltatime="true">
-        <Affliction identifier="lotm_seq9" amount="100" />
-        <Affliction identifier="lotm_spirituality" amount="100" />
+        <Hook name="lotm.seq" custom="9" />
         <ReduceAffliction identifier="lotm_seq8" amount="1000" />
         <ReduceAffliction identifier="lotm_seq7" amount="1000" />
         <ReduceAffliction identifier="lotm_digest8" amount="1000" />
@@ -142,8 +141,7 @@
         <Hook name="lotm.potion" custom="8" />
       </StatusEffect>
       <StatusEffect type="OnUse" target="UseTarget" disabledeltatime="true">
-        <Affliction identifier="lotm_seq8" amount="100" />
-        <Affliction identifier="lotm_spirituality" amount="100" />
+        <Hook name="lotm.seq" custom="8" />
         <ReduceAffliction identifier="lotm_seq9" amount="1000" />
         <ReduceAffliction identifier="lotm_seq7" amount="1000" />
         <ReduceAffliction identifier="lotm_digest9" amount="1000" />
@@ -173,8 +171,7 @@
         <Hook name="lotm.potion" custom="7" />
       </StatusEffect>
       <StatusEffect type="OnUse" target="UseTarget" disabledeltatime="true">
-        <Affliction identifier="lotm_seq7" amount="100" />
-        <Affliction identifier="lotm_spirituality" amount="100" />
+        <Hook name="lotm.seq" custom="7" />
         <ReduceAffliction identifier="lotm_seq9" amount="1000" />
         <ReduceAffliction identifier="lotm_seq8" amount="1000" />
         <ReduceAffliction identifier="lotm_digest9" amount="1000" />
