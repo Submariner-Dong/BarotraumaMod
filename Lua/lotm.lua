@@ -146,6 +146,10 @@ local function applyAmount(ch, id, value)
 end
 
 local function amount(ch, id)
+    -- aggregate across limbs: giveaffliction / apply paths may store on different limbs
+    local v = nil
+    pcall(function() v = ch.CharacterHealth.GetAfflictionStrengthByIdentifier(id, true) end)
+    if v ~= nil and v > 0 then return v end
     local a = findAff(ch, id)
     if a == nil then return 0 end
     local s = 0
@@ -386,21 +390,27 @@ end
 -- per second logic
 -- ============================================================
 local tracked = {}
+local dropped = {}
 local lastLogic = 0
 
 local function deathDrop()
     for other in Character.CharacterList do
         if other ~= nil and other.IsHuman then
-            local s = currentSeq(other)
-            if s ~= nil then tracked[other.ID] = s end
-            if other.IsDead and tracked[other.ID] ~= nil then
-                local seq = tracked[other.ID]
-                tracked[other.ID] = nil
-                local prefab = ItemPrefab.GetItemPrefab(SEQ[seq].char)
-                if prefab ~= nil then
-                    print("[LOTM] dropping characteristic seq=" .. tostring(seq))
-                    Entity.Spawner.AddItemToSpawnQueue(prefab, other.WorldPosition, nil, nil, nil)
+            if other.IsDead then
+                -- only drop once per character; corpses keep their buffs, so never re-track
+                if tracked[other.ID] ~= nil and not dropped[other.ID] then
+                    dropped[other.ID] = true
+                    local seq = tracked[other.ID]
+                    tracked[other.ID] = nil
+                    local prefab = ItemPrefab.GetItemPrefab(SEQ[seq].char)
+                    if prefab ~= nil then
+                        print("[LOTM] dropping characteristic seq=" .. tostring(seq))
+                        Entity.Spawner.AddItemToSpawnQueue(prefab, other.WorldPosition, nil, nil, nil)
+                    end
                 end
+            else
+                local s = currentSeq(other)
+                if s ~= nil then tracked[other.ID] = s end
             end
         end
     end
@@ -447,16 +457,18 @@ local function buildHUD()
         hudRoot.CanBeFocused = false
 
         local panel = GUI.Frame(GUI.RectTransform(Point(400, 250), hudRoot.RectTransform, GUI.Anchor.Center), "GUITextBox")
-        panel.RectTransform.AbsoluteOffset = Point(0, 250)
+        panel.RectTransform.AbsoluteOffset = Point(0, 200)
+        panel.RectTransform.MinSize = Point(400, 250)
         panel.CanBeFocused = false
 
-        hudText.body = GUI.TextBlock(GUI.RectTransform(Vector2(0.94, 0.62), panel.RectTransform, GUI.Anchor.TopCenter), "", nil, nil, GUI.Alignment.Left)
+        hudText.body = GUI.TextBlock(GUI.RectTransform(Point(380, 150), panel.RectTransform, GUI.Anchor.TopCenter), "", nil, nil, GUI.Alignment.Left)
+        hudText.body.RectTransform.MinSize = Point(380, 150)
         hudText.body.TextColor = Color(220, 230, 255, 255)
 
-        local btnVision = GUI.Button(GUI.RectTransform(Vector2(0.44, 0.18), panel.RectTransform, GUI.Anchor.BottomLeft), L("lotm.hud.vision"), GUI.Alignment.Center, "GUIButtonSmall")
+        local btnVision = GUI.Button(GUI.RectTransform(Point(180, 30), panel.RectTransform, GUI.Anchor.BottomLeft), L("lotm.hud.vision"), GUI.Alignment.Center, "GUIButtonSmall")
         btnVision.OnClicked = function() toggleVision(nil) end
 
-        local btnDivine = GUI.Button(GUI.RectTransform(Vector2(0.44, 0.18), panel.RectTransform, GUI.Anchor.BottomRight), L("lotm.hud.divine"), GUI.Alignment.Center, "GUIButtonSmall")
+        local btnDivine = GUI.Button(GUI.RectTransform(Point(180, 30), panel.RectTransform, GUI.Anchor.BottomRight), L("lotm.hud.divine"), GUI.Alignment.Center, "GUIButtonSmall")
         btnDivine.OnClicked = function() divine(L("lotm.msg.divine_default"), nil) end
 
         hudReady = true
