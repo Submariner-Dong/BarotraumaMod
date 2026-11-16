@@ -277,7 +277,12 @@ Hook.Add("lotm.potion", "lotm.potion", function(effect, deltaTime, item, targets
         risk = 120
     end
 
-    local gain = 6 + risk * 0.6
+    local gain
+    if cur == nil then
+        gain = 15          -- first potion: no digestion exists yet, fixed cost
+    else
+        gain = 6 + risk * 0.6
+    end
     addAmount(ch, MADNESS, gain)
 
     if risk <= 0 then
