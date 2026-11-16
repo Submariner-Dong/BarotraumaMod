@@ -160,6 +160,7 @@
   <lotm.cmd.vision>!vision|!灵视</lotm.cmd.vision>
   <lotm.cmd.divine>!divine|!占卜</lotm.cmd.divine>
   <lotm.cmd.hud>!hud|!界面</lotm.cmd.hud>
+  <lotm.cmd.debug>!debug|!调试</lotm.cmd.debug>
   <lotm.kw.monster>怪物,活物,危险,敌,monster,alive,danger,enemy</lotm.kw.monster>
   <lotm.kw.crew>队友,船员,同伴,crew,hurt,team</lotm.kw.crew>
 

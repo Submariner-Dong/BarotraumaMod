@@ -35,6 +35,7 @@ local DEFAULTS = {
     ["lotm.cmd.status"]  = "!status",
     ["lotm.cmd.vision"]  = "!vision",
     ["lotm.cmd.hud"]     = "!hud",
+    ["lotm.cmd.debug"]   = "!debug",
     ["lotm.cmd.divine"]  = "!divine",
     ["lotm.kw.monster"]  = "monster,alive,danger,enemy",
     ["lotm.kw.crew"]     = "crew,hurt,team",
@@ -146,10 +147,23 @@ local function applyAmount(ch, id, value)
 end
 
 local function amount(ch, id)
-    -- aggregate across limbs: giveaffliction / apply paths may store on different limbs
+    -- sum every affliction instance (they may be split across limbs)
+    local total = 0
+    local got = false
+    pcall(function()
+        for aff in ch.CharacterHealth.GetAllAfflictions() do
+            if aff ~= nil and tostring(aff.Identifier) == id then
+                total = total + (aff.Strength or 0)
+                got = true
+            end
+        end
+    end)
+    if got then return total end
+
     local v = nil
     pcall(function() v = ch.CharacterHealth.GetAfflictionStrengthByIdentifier(id, true) end)
     if v ~= nil and v > 0 then return v end
+
     local a = findAff(ch, id)
     if a == nil then return 0 end
     local s = 0
@@ -450,25 +464,65 @@ local function bar(value, maxValue, cells)
     return "[" .. string.rep("=", filled) .. string.rep("-", cells - filled) .. "]"
 end
 
+local bars = {}
+
+local function makeRow(parent, y, label, color)
+    local name = GUI.TextBlock(GUI.RectTransform(Point(44, 14), parent.RectTransform, GUI.Anchor.TopLeft), label, nil, nil, GUI.Alignment.Left)
+    name.RectTransform.AbsoluteOffset = Point(2, y)
+    name.TextScale = 0.8
+    name.TextColor = Color(205, 215, 235, 255)
+
+    local bg = GUI.Frame(GUI.RectTransform(Point(170, 12), parent.RectTransform, GUI.Anchor.TopLeft), "GUITextBox")
+    bg.RectTransform.AbsoluteOffset = Point(48, y + 1)
+    bg.RectTransform.MinSize = Point(170, 12)
+    bg.Color = Color(14, 18, 26, 220)
+
+    local fill = GUI.Frame(GUI.RectTransform(Vector2(1, 1), bg.RectTransform, GUI.Anchor.TopLeft), "GUITextBox")
+    fill.Color = color
+    fill.RectTransform.MinSize = Point(0, 12)
+
+    local val = GUI.TextBlock(GUI.RectTransform(Point(92, 14), parent.RectTransform, GUI.Anchor.TopLeft), "", nil, nil, GUI.Alignment.Left)
+    val.RectTransform.AbsoluteOffset = Point(222, y)
+    val.TextScale = 0.8
+    val.TextColor = Color(205, 215, 235, 255)
+
+    return { fill = fill, value = val }
+end
+
+local function setBar(row, v, maxv)
+    if row == nil then return end
+    local pct = v / maxv
+    if pct < 0 then pct = 0 end
+    if pct > 1 then pct = 1 end
+    pcall(function() row.fill.RectTransform.RelativeSize = Vector2(pct, 1) end)
+    pcall(function() row.value.Text = string.format("%d/%d", math.floor(v + 0.5), maxv) end)
+end
+
 local function buildHUD()
     if not CLIENT then return end
     local ok = pcall(function()
         hudRoot = GUI.Frame(GUI.RectTransform(Vector2(1, 1)), nil)
         hudRoot.CanBeFocused = false
 
-        local panel = GUI.Frame(GUI.RectTransform(Point(300, 170), hudRoot.RectTransform, GUI.Anchor.TopLeft), "GUITextBox")
-        panel.RectTransform.AbsoluteOffset = Point(18, 232)
-        panel.RectTransform.MinSize = Point(300, 170)
+        -- sits above the vanilla character panel in the bottom-right corner
+        local panel = GUI.Frame(GUI.RectTransform(Point(320, 104), hudRoot.RectTransform, GUI.Anchor.BottomRight), "GUITextBox")
+        panel.RectTransform.AbsoluteOffset = Point(12, 252)
+        panel.RectTransform.MinSize = Point(320, 104)
         panel.CanBeFocused = false
 
-        hudText.body = GUI.TextBlock(GUI.RectTransform(Point(286, 116), panel.RectTransform, GUI.Anchor.TopCenter), "", nil, nil, GUI.Alignment.Left)
-        hudText.body.RectTransform.MinSize = Point(286, 116)
-        hudText.body.TextColor = Color(198, 216, 245, 235)
+        hudText.title = GUI.TextBlock(GUI.RectTransform(Point(316, 16), panel.RectTransform, GUI.Anchor.TopLeft), "", nil, nil, GUI.Alignment.Left)
+        hudText.title.RectTransform.AbsoluteOffset = Point(2, 2)
+        hudText.title.TextScale = 0.85
+        hudText.title.TextColor = Color(255, 214, 140, 255)
 
-        local btnVision = GUI.Button(GUI.RectTransform(Point(134, 26), panel.RectTransform, GUI.Anchor.BottomLeft), L("lotm.hud.vision"), GUI.Alignment.Center, "GUIButtonSmall")
+        bars.sp  = makeRow(panel, 22, L("lotm.hud.sp"),  Color(70, 145, 255, 255))
+        bars.mad = makeRow(panel, 40, L("lotm.hud.mad"), Color(190, 70, 210, 255))
+        bars.dig = makeRow(panel, 58, L("lotm.hud.dig"), Color(230, 170, 80, 255))
+
+        local btnVision = GUI.Button(GUI.RectTransform(Point(150, 22), panel.RectTransform, GUI.Anchor.BottomLeft), L("lotm.hud.vision"), GUI.Alignment.Center, "GUIButtonSmall")
         btnVision.OnClicked = function() toggleVision(nil) end
 
-        local btnDivine = GUI.Button(GUI.RectTransform(Point(134, 26), panel.RectTransform, GUI.Anchor.BottomRight), L("lotm.hud.divine"), GUI.Alignment.Center, "GUIButtonSmall")
+        local btnDivine = GUI.Button(GUI.RectTransform(Point(150, 22), panel.RectTransform, GUI.Anchor.BottomRight), L("lotm.hud.divine"), GUI.Alignment.Center, "GUIButtonSmall")
         btnDivine.OnClicked = function() divine(L("lotm.msg.divine_default"), nil) end
 
         hudReady = true
@@ -496,9 +550,6 @@ local function updateHUD()
     local ch = Character.Controlled
     if ch == nil then return end
 
-    local hp, maxhp = 0, 100
-    pcall(function() hp = ch.Health; maxhp = ch.MaxHealth end)
-
     local seq = currentSeq(ch)
     local sp = amount(ch, SPIRIT)
     local mad = amount(ch, MADNESS)
@@ -506,15 +557,11 @@ local function updateHUD()
     if seq ~= nil then dig = amount(ch, SEQ[seq].digest) end
 
     pcall(function()
-        local title = seq and L(SEQ[seq].nameKey) or L("lotm.hud.novice")
-        local lines = {}
-        lines[1] = L("lotm.hud.title") .. " - " .. title
-        lines[2] = L("lotm.hud.hp")  .. " " .. bar(hp, maxhp) .. " " .. math.floor(hp + 0.5) .. "/" .. math.floor(maxhp + 0.5)
-        lines[3] = L("lotm.hud.sp")  .. " " .. bar(sp, 100) .. " " .. math.floor(sp + 0.5)
-        lines[4] = L("lotm.hud.mad") .. " " .. bar(mad, 100) .. " " .. math.floor(mad + 0.5)
-        lines[5] = L("lotm.hud.dig") .. " " .. (seq and (bar(dig, 100) .. " " .. math.floor(dig + 0.5)) or L("lotm.hud.none"))
-        hudText.body.Text = table.concat(lines, "\n")
+        hudText.title.Text = L("lotm.hud.title") .. " - " .. (seq and L(SEQ[seq].nameKey) or L("lotm.hud.novice"))
     end)
+    setBar(bars.sp, sp, 100)
+    setBar(bars.mad, mad, 100)
+    setBar(bars.dig, dig, 100)
 end
 
 local function onFrame()
@@ -573,6 +620,24 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
             else
                 send("[LOTM] hud not available", COLOR_WARN, client)
             end
+            return true
+        end
+    end
+
+    for _, a in ipairs(aliases("lotm.cmd.debug")) do
+        if message == a then
+            local ch = Character.Controlled
+            if ch == nil then return true end
+            local lines = {}
+            pcall(function()
+                for aff in ch.CharacterHealth.GetAllAfflictions() do
+                    local aid = tostring(aff.Identifier)
+                    if string.sub(aid, 1, 4) == "lotm" then
+                        lines[#lines + 1] = aid .. "=" .. string.format("%.1f", aff.Strength)
+                    end
+                end
+            end)
+            send(table.concat(lines, "  "), COLOR_NORMAL, client)
             return true
         end
     end
