@@ -160,6 +160,7 @@
   <lotm.cmd.divine>!divine</lotm.cmd.divine>
   <lotm.cmd.hud>!hud</lotm.cmd.hud>
   <lotm.cmd.debug>!debug</lotm.cmd.debug>
+  <lotm.cmd.pos>!pos</lotm.cmd.pos>
   <lotm.kw.monster>monster,alive,danger,enemy</lotm.kw.monster>
   <lotm.kw.crew>crew,hurt,team</lotm.kw.crew>
 

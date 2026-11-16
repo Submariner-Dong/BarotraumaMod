@@ -36,6 +36,7 @@ local DEFAULTS = {
     ["lotm.cmd.vision"]  = "!vision",
     ["lotm.cmd.hud"]     = "!hud",
     ["lotm.cmd.debug"]   = "!debug",
+    ["lotm.cmd.pos"]     = "!pos",
     ["lotm.cmd.divine"]  = "!divine",
     ["lotm.kw.monster"]  = "monster,alive,danger,enemy",
     ["lotm.kw.crew"]     = "crew,hurt,team",
@@ -72,6 +73,10 @@ local SEQ = {
     [7] = { buff = "lotm_seq7", digest = "lotm_digest7", char = "lotm_char_magician", nameKey = "afflictionname.lotm_seq7" },
 }
 local SEQ_ORDER = { 9, 8, 7 }
+local LIMB_TYPES = {}
+pcall(function()
+    LIMB_TYPES = { LimbType.Head, LimbType.Torso, LimbType.LeftArm, LimbType.RightArm, LimbType.LeftLeg, LimbType.RightLeg }
+end)
 
 local MADNESS = "lotm_madness"
 local SPIRIT  = "lotm_spirituality"
@@ -464,6 +469,10 @@ local function bar(value, maxValue, cells)
     return "[" .. string.rep("=", filled) .. string.rep("-", cells - filled) .. "]"
 end
 
+local HUD_PRESETS = { 96, 250, 470 }
+local hudPanel = nil
+local hudPreset = 1
+
 local bars = {}
 
 local function makeRow(parent, y, label, color)
@@ -505,8 +514,9 @@ local function buildHUD()
         hudRoot.CanBeFocused = false
 
         -- sits above the vanilla character panel in the bottom-right corner
-        local panel = GUI.Frame(GUI.RectTransform(Point(320, 104), hudRoot.RectTransform, GUI.Anchor.BottomRight), "GUITextBox")
-        panel.RectTransform.AbsoluteOffset = Point(12, 252)
+        local panel = GUI.Frame(GUI.RectTransform(Point(320, 104), hudRoot.RectTransform, GUI.Anchor.TopCenter), "GUITextBox")
+        panel.RectTransform.AbsoluteOffset = Point(0, HUD_PRESETS[hudPreset])
+        hudPanel = panel
         panel.RectTransform.MinSize = Point(320, 104)
         panel.CanBeFocused = false
 
@@ -629,19 +639,37 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
             local ch = Character.Controlled
             if ch == nil then return true end
             local lines = {}
-            pcall(function()
-                for aff in ch.CharacterHealth.GetAllAfflictions() do
-                    local aid = tostring(aff.Identifier)
-                    if string.sub(aid, 1, 4) == "lotm" then
-                        lines[#lines + 1] = aid .. "=" .. string.format("%.1f", aff.Strength)
+            local v = nil
+            pcall(function() v = ch.CharacterHealth.GetAfflictionStrengthByIdentifier("lotm_madness", true) end)
+            lines[#lines + 1] = "api=" .. string.format("%.1f", v or -1)
+            for _, lt in ipairs(LIMB_TYPES) do
+                local limb = nil
+                pcall(function() limb = ch.AnimController.GetLimb(lt) end)
+                if limb ~= nil then
+                    local aff = nil
+                    pcall(function() aff = ch.CharacterHealth.GetAffliction("lotm_madness", limb) end)
+                    if aff ~= nil then
+                        local s = 0
+                        pcall(function() s = aff.Strength end)
+                        lines[#lines + 1] = tostring(lt) .. "=" .. string.format("%.1f", s)
                     end
                 end
-            end)
-            send(table.concat(lines, "  "), COLOR_NORMAL, client)
+            end
+            send(table.concat(lines, " "), COLOR_NORMAL, client)
             return true
         end
     end
 
+    for _, a in ipairs(aliases("lotm.cmd.pos")) do
+        if message == a then
+            hudPreset = hudPreset % #HUD_PRESETS + 1
+            if hudPanel ~= nil then
+                pcall(function() hudPanel.RectTransform.AbsoluteOffset = Point(0, HUD_PRESETS[hudPreset]) end)
+            end
+            send("[LOTM] position " .. tostring(hudPreset), COLOR_NORMAL, client)
+            return true
+        end
+    end
     for _, a in ipairs(aliases("lotm.cmd.divine")) do
         if string.sub(message, 1, #a) == a then
             divine(string.sub(message, #a + 1), client)
