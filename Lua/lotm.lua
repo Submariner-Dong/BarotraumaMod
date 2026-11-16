@@ -447,7 +447,7 @@ local function bar(value, maxValue, cells)
     local filled = math.floor((value / maxValue) * cells + 0.5)
     if filled < 0 then filled = 0 end
     if filled > cells then filled = cells end
-    return "[" .. string.rep("#", filled) .. string.rep("-", cells - filled) .. "]"
+    return "[" .. string.rep("=", filled) .. string.rep("-", cells - filled) .. "]"
 end
 
 local function buildHUD()
@@ -456,19 +456,19 @@ local function buildHUD()
         hudRoot = GUI.Frame(GUI.RectTransform(Vector2(1, 1)), nil)
         hudRoot.CanBeFocused = false
 
-        local panel = GUI.Frame(GUI.RectTransform(Point(400, 250), hudRoot.RectTransform, GUI.Anchor.Center), "GUITextBox")
-        panel.RectTransform.AbsoluteOffset = Point(0, 200)
-        panel.RectTransform.MinSize = Point(400, 250)
+        local panel = GUI.Frame(GUI.RectTransform(Point(300, 170), hudRoot.RectTransform, GUI.Anchor.TopLeft), "GUITextBox")
+        panel.RectTransform.AbsoluteOffset = Point(18, 232)
+        panel.RectTransform.MinSize = Point(300, 170)
         panel.CanBeFocused = false
 
-        hudText.body = GUI.TextBlock(GUI.RectTransform(Point(380, 150), panel.RectTransform, GUI.Anchor.TopCenter), "", nil, nil, GUI.Alignment.Left)
-        hudText.body.RectTransform.MinSize = Point(380, 150)
-        hudText.body.TextColor = Color(220, 230, 255, 255)
+        hudText.body = GUI.TextBlock(GUI.RectTransform(Point(286, 116), panel.RectTransform, GUI.Anchor.TopCenter), "", nil, nil, GUI.Alignment.Left)
+        hudText.body.RectTransform.MinSize = Point(286, 116)
+        hudText.body.TextColor = Color(198, 216, 245, 235)
 
-        local btnVision = GUI.Button(GUI.RectTransform(Point(180, 30), panel.RectTransform, GUI.Anchor.BottomLeft), L("lotm.hud.vision"), GUI.Alignment.Center, "GUIButtonSmall")
+        local btnVision = GUI.Button(GUI.RectTransform(Point(134, 26), panel.RectTransform, GUI.Anchor.BottomLeft), L("lotm.hud.vision"), GUI.Alignment.Center, "GUIButtonSmall")
         btnVision.OnClicked = function() toggleVision(nil) end
 
-        local btnDivine = GUI.Button(GUI.RectTransform(Point(180, 30), panel.RectTransform, GUI.Anchor.BottomRight), L("lotm.hud.divine"), GUI.Alignment.Center, "GUIButtonSmall")
+        local btnDivine = GUI.Button(GUI.RectTransform(Point(134, 26), panel.RectTransform, GUI.Anchor.BottomRight), L("lotm.hud.divine"), GUI.Alignment.Center, "GUIButtonSmall")
         btnDivine.OnClicked = function() divine(L("lotm.msg.divine_default"), nil) end
 
         hudReady = true

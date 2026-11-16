@@ -46,7 +46,7 @@
   </Affliction>
 
   <!-- 灵性耗尽强行关闭灵视后的短暂后遗症 -->
-  <Affliction name="" identifier="lotm_visionsick" description="" limbspecific="false" indicatorlimb="Head" activationthreshold="0" maxstrength="100" treatmentthreshold="1000" showinhealthscannerthreshold="0">
+  <Affliction name="" identifier="lotm_visionsick" description="" isbuff="true" limbspecific="false" indicatorlimb="Head" activationthreshold="0" maxstrength="100" treatmentthreshold="1000" showinhealthscannerthreshold="0">
     <Description textidentifier="afflictiondescription.lotm_visionsick" target="Self" />
     <Effect minstrength="0" maxstrength="100" strengthchange="-2" minspeedmultiplier="1.0" maxspeedmultiplier="0.85" />
     <icon texture="Content/UI/MainIconsAtlas.png" sourcerect="896,896,128,128" color="160,120,200,255" origin="0,0" />
@@ -64,7 +64,7 @@
   <!-- ============================================================
        疯狂：不会自然衰减。区间必须互不重叠。
        ============================================================ -->
-  <Affliction name="" identifier="lotm_madness" description="" limbspecific="false" indicatorlimb="Head" activationthreshold="0" maxstrength="100" treatmentthreshold="1000" showinhealthscannerthreshold="0">
+  <Affliction name="" identifier="lotm_madness" description="" isbuff="true" limbspecific="false" indicatorlimb="Head" activationthreshold="0" maxstrength="100" treatmentthreshold="1000" showinhealthscannerthreshold="0">
     <Description textidentifier="afflictiondescription.lotm_madness" target="Self" />
     <Effect minstrength="0" maxstrength="39" strengthchange="0" />
     <Effect minstrength="40" maxstrength="69" strengthchange="0" minspeedmultiplier="1.0" maxspeedmultiplier="0.90" />
