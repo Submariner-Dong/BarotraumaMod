@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<infotexts language="English" nowhitespace="true" translatedname="English">
+
+  <!-- ================= Materials ================= -->
+  <entityname.lotm_lavaoctopus_blood>Lava Octopus Blood</entityname.lotm_lavaoctopus_blood>
+  <entitydescription.lotm_lavaoctopus_blood>Thick dark-red blood that still writhes slowly after leaving the body. A main ingredient of the Seer potion.</entitydescription.lotm_lavaoctopus_blood>
+
+  <entityname.lotm_starcrystal>Star Crystal</entityname.lotm_starcrystal>
+  <entitydescription.lotm_starcrystal>A clear crystal holding faint starlight; it glows blue at night. A main ingredient of the Seer potion.</entitydescription.lotm_starcrystal>
+
+  <entityname.lotm_purewater>Pure Water</entityname.lotm_purewater>
+  <entitydescription.lotm_purewater>Distilled pure water. Required by almost every potion formula.</entitydescription.lotm_purewater>
+
+  <entityname.lotm_nightgrass>Nightgrass Juice</entityname.lotm_nightgrass>
+  <entitydescription.lotm_nightgrass>Juice pressed from a herb that only blooms at night. Sweet and faintly bitter.</entitydescription.lotm_nightgrass>
+
+  <entityname.lotm_goldmint>Goldmint Leaf</entityname.lotm_goldmint>
+  <entitydescription.lotm_goldmint>A mint leaf veined with gold. Holding it under the tongue sharpens the mind.</entitydescription.lotm_goldmint>
+
+  <entityname.lotm_hemlock>Hemlock Juice</entityname.lotm_hemlock>
+  <entitydescription.lotm_hemlock>Deadly poison, yet in tiny amounts it stabilizes a potion.</entitydescription.lotm_hemlock>
+
+  <entityname.lotm_dragonblood>Dragonblood Powder</entityname.lotm_dragonblood>
+  <entitydescription.lotm_dragonblood>Dark red powder that smells of rust and old paper.</entitydescription.lotm_dragonblood>
+
+  <entityname.lotm_goathorn>Hornacis Grey Goat Horn Crystal</entityname.lotm_goathorn>
+  <entitydescription.lotm_goathorn>The horn of an adult Hornacis grey goat, crystallized into translucent grey inside. A main ingredient of the Clown potion.</entitydescription.lotm_goathorn>
+
+  <entityname.lotm_facerose>Face Rose</entityname.lotm_facerose>
+  <entitydescription.lotm_facerose>Its petals bear faint human faces. Stare too long and they seem to smile. A main ingredient of the Clown potion.</entitydescription.lotm_facerose>
+
+  <entityname.lotm_mandrake>Mandrake Juice</entityname.lotm_mandrake>
+  <entitydescription.lotm_mandrake>Juice pressed from mandrake root, mildly hallucinogenic.</entitydescription.lotm_mandrake>
+
+  <entityname.lotm_sunflower>Black-edged Sunflower Powder</entityname.lotm_sunflower>
+  <entitydescription.lotm_sunflower>Petals scorched black at the edges, still warm when ground to powder.</entitydescription.lotm_sunflower>
+
+  <entityname.lotm_goldcloak>Goldcloak Grass Powder</entityname.lotm_goldcloak>
+  <entitydescription.lotm_goldcloak>The whole plant looks wrapped in a golden cloak; ground into dull gold powder.</entitydescription.lotm_goldcloak>
+
+  <entityname.lotm_misttreant_root>Mist Treant True Root</entityname.lotm_misttreant_root>
+  <entitydescription.lotm_misttreant_root>A root cut from a mist treant. Warm to the touch, weeping white mist from the cut. A main ingredient of the Magician potion.</entitydescription.lotm_misttreant_root>
+
+  <entityname.lotm_blackpanther_marrow>Patterned Black Panther Marrow Fluid</entityname.lotm_blackpanther_marrow>
+  <entitydescription.lotm_blackpanther_marrow>A faintly glowing fluid whose reflection always lags half a beat. A main ingredient of the Magician potion.</entitydescription.lotm_blackpanther_marrow>
+
+  <entityname.lotm_misttreant_juice>Mist Treant Juice</entityname.lotm_misttreant_juice>
+  <entitydescription.lotm_misttreant_juice>Juice pressed from mist treant root; it evaporates into a small cloud of mist on its own.</entitydescription.lotm_misttreant_juice>
+
+  <entityname.lotm_watergem>Watershape Gem Powder</entityname.lotm_watergem>
+  <entitydescription.lotm_watergem>Powder of a teardrop-shaped gem that always seems to be flowing.</entitydescription.lotm_watergem>
+
+  <entityname.lotm_hallucinogen>Hallucinogenic Grass Oil</entityname.lotm_hallucinogen>
+  <entitydescription.lotm_hallucinogen>Sweet, cloying oil; breathe it too long and you see colors that do not exist.</entitydescription.lotm_hallucinogen>
+
+  <!-- ================= Characteristics ================= -->
+  <entityname.lotm_char_diviner>Seer Beyonder Characteristic</entityname.lotm_char_diviner>
+  <entitydescription.lotm_char_diviner>A pathway core torn from a Seer, like solidified deep-blue mist. Can replace the main ingredients of the Seer potion.</entitydescription.lotm_char_diviner>
+
+  <entityname.lotm_char_clown>Clown Beyonder Characteristic</entityname.lotm_char_clown>
+  <entitydescription.lotm_char_clown>A golden crystal that still holds a comic grin; holding it, you hear faint laughter. Can replace the main ingredients of the Clown potion.</entitydescription.lotm_char_clown>
+
+  <entityname.lotm_char_magician>Magician Beyonder Characteristic</entityname.lotm_char_magician>
+  <entitydescription.lotm_char_magician>A shard that keeps shifting color and shape; staring too long makes you dizzy. Can replace the main ingredients of the Magician potion.</entitydescription.lotm_char_magician>
+
+  <!-- ================= Potions ================= -->
+  <entityname.lotm_potion_seq9>Seer Potion</entityname.lotm_potion_seq9>
+  <entitydescription.lotm_potion_seq9>A viscous deep-blue liquid with illusory white mist drifting on its surface, threaded with fine patterns that never separate. Acting rule: read fate for others, guide them toward good, revere fate, but never rely on divination alone.</entitydescription.lotm_potion_seq9>
+
+  <entityname.lotm_potion_seq8>Clown Potion</entityname.lotm_potion_seq8>
+  <entitydescription.lotm_potion_seq8>A clear liquid of blended gold, yellow and red; bubbles rise but never break the surface. Acting rule: see fate, yet hide sorrow behind laughter.</entitydescription.lotm_potion_seq8>
+
+  <entityname.lotm_potion_seq7>Magician Potion</entityname.lotm_potion_seq7>
+  <entitydescription.lotm_potion_seq7>Fireworks of red, orange, yellow and green bloom endlessly inside, with no fixed shape. Acting rule: make the audience believe what they see.</entitydescription.lotm_potion_seq7>
+
+  <!-- ================= Tools ================= -->
+  <entityname.lotm_divination_crystal>Divination Crystal</entityname.lotm_divination_crystal>
+  <entitydescription.lotm_divination_crystal>A Seer's tool. Using it consumes spirituality and deepens your understanding of the pathway through repeated ritual.</entitydescription.lotm_divination_crystal>
+
+  <entityname.lotm_paper_figure>Paper Figure</entityname.lotm_paper_figure>
+  <entitydescription.lotm_paper_figure>A crookedly folded paper figure, said to take a lethal blow in its owner's place.</entitydescription.lotm_paper_figure>
+
+  <!-- ================= Afflictions ================= -->
+  <afflictionname.lotm_seq9>Sequence 9 - Seer</afflictionname.lotm_seq9>
+  <afflictiondescription.lotm_seq9>You are a Seer. Wider spirit vision, slightly higher max health, and a faint blue tint to your skin. Never rely on divination alone.</afflictiondescription.lotm_seq9>
+
+  <afflictionname.lotm_seq8>Sequence 8 - Clown</afflictionname.lotm_seq8>
+  <afflictiondescription.lotm_seq8>Greatly improved coordination: faster, deadlier in melee, tougher, and able to hold your breath longer. Acting rule: hide sorrow behind laughter.</afflictiondescription.lotm_seq8>
+
+  <afflictionname.lotm_seq7>Sequence 7 - Magician</afflictionname.lotm_seq7>
+  <afflictiondescription.lotm_seq7>Physique further enhanced and damage resistance increased. Acting rule: make the audience believe what they see.</afflictiondescription.lotm_seq7>
+
+  <afflictionname.lotm_spirituality>Spirituality</afflictionname.lotm_spirituality>
+  <afflictiondescription.lotm_spirituality>The fuel for spells and divination, slowly recovering on its own. Casting with no spirituality left builds madness.</afflictiondescription.lotm_spirituality>
+
+  <afflictionname.lotm_madness>Madness</afflictionname.lotm_madness>
+  <afflictiondescription.lotm_madness>Never fades on its own. Higher madness slows you down; above 70% it keeps eroding your sanity. Only acting can calm it.</afflictiondescription.lotm_madness>
+
+  <afflictionname.lotm_digest9>Acting - Seer</afflictionname.lotm_digest9>
+  <afflictiondescription.lotm_digest>Digestion progress of the current potion. Using the sequence's abilities advances it and slowly calms madness.</afflictiondescription.lotm_digest>
+
+  <afflictionname.lotm_digest8>Acting - Clown</afflictionname.lotm_digest8>
+  <afflictionname.lotm_digest7>Acting - Magician</afflictionname.lotm_digest7>
+
+  <!-- ================= Potion Bases ================= -->
+  <entityname.lotm_base9>Seer Potion Base</entityname.lotm_base9>
+  <entitydescription.lotm_base9>A deep-blue base brewed to the novel's proportions, still missing its main ingredients. The medical fabricator only has five input slots, so the base is brewed first.</entitydescription.lotm_base9>
+
+  <entityname.lotm_base8>Clown Potion Base</entityname.lotm_base8>
+  <entitydescription.lotm_base8>A thick golden base; it only starts bubbling once the main ingredients are added.</entitydescription.lotm_base8>
+
+  <entityname.lotm_base7>Magician Potion Base</entityname.lotm_base7>
+  <entitydescription.lotm_base7>A clear base that keeps refracting stray colors; smells like metal after rain.</entitydescription.lotm_base7>
+
+  <!-- ================= Spirit Vision ================= -->
+  <afflictionname.lotm_spiritvision>Spirit Vision</afflictionname.lotm_spiritvision>
+  <afflictiondescription.lotm_spiritvision>An actively opened mystical sight. Drains spirituality continuously; if it runs dry the vision is cut off and leaves a short headache.</afflictiondescription.lotm_spiritvision>
+
+  <afflictionname.lotm_visionsick>Vision Backlash</afflictionname.lotm_visionsick>
+  <afflictiondescription.lotm_visionsick>The aftereffect of peering into the spirit world with no spirituality left: stinging sight and unsteady steps. Fades with rest.</afflictiondescription.lotm_visionsick>
+
+  <!-- ================= Script messages ================= -->
+  <lotm.msg.losecontrol>Something pushed your mind aside. You have lost control.</lotm.msg.losecontrol>
+  <lotm.msg.potion_same>The potion is already in your blood. Another bottle will only deepen the madness.</lotm.msg.potion_same>
+  <lotm.msg.potion_ok>The potion is accepted by your body.</lotm.msg.potion_ok>
+  <lotm.msg.potion_pain>Agony tears through your mind as you ascend...</lotm.msg.potion_pain>
+  <lotm.msg.potion_reckless>You force an ascension with almost no digestion. Your flesh screams...</lotm.msg.potion_reckless>
+  <lotm.msg.no_pathway>You have not set foot on any pathway yet.</lotm.msg.no_pathway>
+  <lotm.msg.no_crystal>You need a divination crystal with you.</lotm.msg.no_crystal>
+  <lotm.msg.no_spirit_divine>Your spirituality is spent. You force fate and see only blood. (Madness +5)</lotm.msg.no_spirit_divine>
+  <lotm.msg.divine_prefix>Divination: </lotm.msg.divine_prefix>
+  <lotm.msg.divine_ask>Divination "%s": </lotm.msg.divine_ask>
+  <lotm.msg.divine_default>is anything alive nearby</lotm.msg.divine_default>
+  <lotm.msg.divine_yes>The answer is "yes".</lotm.msg.divine_yes>
+  <lotm.msg.divine_no>The answer is "no".</lotm.msg.divine_no>
+  <lotm.msg.divine_wrong>...but the mist in the crystal churns; this time it may be wrong.</lotm.msg.divine_wrong>
+  <lotm.msg.divine_lowdigest>(Digestion is too low; you can barely read it.)</lotm.msg.divine_lowdigest>
+  <lotm.msg.vision_on>Spirit vision opens. The world gains a color that should not be seen... your spirituality is draining.</lotm.msg.vision_on>
+  <lotm.msg.vision_off>Spirit vision closed.</lotm.msg.vision_off>
+  <lotm.msg.vision_low_spirit>Not enough spirituality to open spirit vision.</lotm.msg.vision_low_spirit>
+  <lotm.msg.vision_collapse>Spirituality is spent; the vision is cut off. Your head is splitting.</lotm.msg.vision_collapse>
+  <lotm.msg.status_prefix>Health</lotm.msg.status_prefix>
+  <lotm.msg.seq_none>Uninitiated</lotm.msg.seq_none>
+
+  <!-- ================= HUD ================= -->
+  <lotm.hud.title>Fool Pathway</lotm.hud.title>
+  <lotm.hud.novice>Uninitiated</lotm.hud.novice>
+  <lotm.hud.hp>Health</lotm.hud.hp>
+  <lotm.hud.sp>Spirit</lotm.hud.sp>
+  <lotm.hud.mad>Madness</lotm.hud.mad>
+  <lotm.hud.dig>Digest</lotm.hud.dig>
+  <lotm.hud.none>--</lotm.hud.none>
+  <lotm.hud.vision>Vision</lotm.hud.vision>
+  <lotm.hud.divine>Divine</lotm.hud.divine>
+
+  <!-- ================= Commands and keywords ================= -->
+  <lotm.cmd.help>!lotm</lotm.cmd.help>
+  <lotm.cmd.status>!status</lotm.cmd.status>
+  <lotm.cmd.vision>!vision</lotm.cmd.vision>
+  <lotm.cmd.divine>!divine</lotm.cmd.divine>
+  <lotm.cmd.hud>!hud</lotm.cmd.hud>
+  <lotm.kw.monster>monster,alive,danger,enemy</lotm.kw.monster>
+  <lotm.kw.crew>crew,hurt,team</lotm.kw.crew>
+
+</infotexts>

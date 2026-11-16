@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Items>
+
+  <!-- ============================================================
+       魔药材料（完全按原著配方）
+       来源：医疗站 / 研究站（贵、限量）
+       ============================================================ -->
+
+  <!-- 序列9 主材料 -->
+  <Item name="" identifier="lotm_lavaoctopus_blood" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="220" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+      <Price storeidentifier="merchantmedical" multiplier="1.3" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="832,448,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="0,261,83,46" depth="0.55" origin="0.5,0.5" />
+    <Body width="30" height="24" density="9.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_starcrystal" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="260" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+      <Price storeidentifier="merchantmedical" multiplier="1.3" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="832,0,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Materials/Minerals.png" sourcerect="175,220,50,33" depth="0.55" origin="0.5,0.5" />
+    <Body width="22" height="18" density="9.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <!-- 序列9 辅助材料 -->
+  <Item name="" identifier="lotm_purewater" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="60" minavailable="4">
+      <Price storeidentifier="merchantmedical" multiplier="1.0" minavailable="4" />
+      <Price storeidentifier="merchantoutpost" multiplier="1.2" minavailable="2" />
+      <Price storeidentifier="merchantresearch" multiplier="1.2" minavailable="2" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="512,64,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="0,0,37,69" depth="0.6" origin="0.5,0.5" />
+    <Body width="22" height="40" density="10.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_nightgrass" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_soft">
+    <Price baseprice="90" minavailable="3">
+      <Price storeidentifier="merchantmedical" multiplier="1.0" minavailable="3" />
+      <Price storeidentifier="merchantoutpost" multiplier="1.2" minavailable="2" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="448,64,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="37,0,38,69" depth="0.6" origin="0.5,0.5" />
+    <Body width="22" height="40" density="10.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_goldmint" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_soft">
+    <Price baseprice="80" minavailable="3">
+      <Price storeidentifier="merchantmedical" multiplier="1.0" minavailable="3" />
+      <Price storeidentifier="merchantoutpost" multiplier="1.2" minavailable="2" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="576,388,63,57" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Gardening/GrowablePlants_Temp.png" sourcerect="971,649,43,55" depth="0.2" origin="0.5,0.5" />
+    <Body width="20" height="24" density="7.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_hemlock" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="120" minavailable="2">
+      <Price storeidentifier="merchantmedical" multiplier="1.0" minavailable="2" />
+      <Price storeidentifier="merchantresearch" multiplier="1.1" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="512,388,63,57" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="340,33,26,42" depth="0.6" origin="0.5,0.5" />
+    <Body width="18" height="30" density="10.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_dragonblood" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="150" minavailable="2">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="2" />
+      <Price storeidentifier="merchantmedical" multiplier="1.2" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="640,388,59,57" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Materials/Minerals.png" sourcerect="202,100,43,30" depth="0.55" origin="0.5,0.5" />
+    <Body width="20" height="16" density="8.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <!-- 序列8 主材料 -->
+  <Item name="" identifier="lotm_goathorn" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="320" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="896,384,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Materials/Minerals.png" sourcerect="221,0,35,53" depth="0.55" origin="0.5,0.5" />
+    <Body width="18" height="34" density="9.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_facerose" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_soft">
+    <Price baseprice="300" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="768,256,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Gardening/GrowablePlants_Temp.png" sourcerect="904,646,56,61" depth="0.2" origin="0.5,0.5" />
+    <Body width="22" height="22" density="7.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <!-- 序列8 辅助材料 -->
+  <Item name="" identifier="lotm_mandrake" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="130" minavailable="2">
+      <Price storeidentifier="merchantmedical" multiplier="1.0" minavailable="2" />
+      <Price storeidentifier="merchantresearch" multiplier="1.1" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="896,256,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="228,379,37,69" depth="0.6" origin="0.5,0.5" />
+    <Body width="22" height="40" density="10.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_sunflower" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="160" minavailable="2">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="2" />
+      <Price storeidentifier="merchantmedical" multiplier="1.2" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="832,256,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Gardening/GrowablePlants_Temp.png" sourcerect="968,712,49,55" depth="0.2" origin="0.5,0.5" />
+    <Body width="20" height="24" density="7.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_goldcloak" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="170" minavailable="2">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="2" />
+      <Price storeidentifier="merchantmedical" multiplier="1.2" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="768,320,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Gardening/GrowablePlants_Temp.png" sourcerect="971,777,44,50" depth="0.2" origin="0.5,0.5" />
+    <Body width="20" height="24" density="7.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <!-- 序列7 主材料 -->
+  <Item name="" identifier="lotm_misttreant_root" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_soft">
+    <Price baseprice="380" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="896,320,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Gardening/GrowablePlants_Temp.png" sourcerect="907,838,44,50" depth="0.2" origin="0.5,0.5" />
+    <Body width="24" height="26" density="8.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_blackpanther_marrow" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="420" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="384,388,64,57" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="1,217,82,44" depth="0.6" origin="0.5,0.5" />
+    <Body width="30" height="18" density="9.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <!-- 序列7 辅助材料 -->
+  <Item name="" identifier="lotm_misttreant_juice" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="200" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="325,388,59,55" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="312,8,63,22" depth="0.6" origin="0.5,0.5" />
+    <Body width="28" height="14" density="9.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_watergem" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="240" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+      <Price storeidentifier="merchantmedical" multiplier="1.3" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="128,127,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Materials/Minerals.png" sourcerect="133,221,35,32" depth="0.55" origin="0.5,0.5" />
+    <Body width="20" height="16" density="9.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_hallucinogen" category="Material" Tags="smallitem,chem" maxstacksize="32" maxstacksizecharacterinventory="8" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Price baseprice="180" minavailable="2">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="2" />
+      <Price storeidentifier="merchantmedical" multiplier="1.2" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="191,127,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="226,306,38,72" depth="0.6" origin="0.5,0.5" />
+    <Body width="22" height="42" density="10.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+</Items>

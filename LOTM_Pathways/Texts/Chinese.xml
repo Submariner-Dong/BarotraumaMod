@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<infotexts language="Simplified Chinese" nowhitespace="true" translatedname="中文(简体)">
+
+  <!-- ================= 材料 ================= -->
+  <entityname.lotm_lavaoctopus_blood>拉瓦章鱼血液</entityname.lotm_lavaoctopus_blood>
+  <entitydescription.lotm_lavaoctopus_blood>粘稠的暗红色血液，离开母体后仍会缓慢蠕动。占卜家魔药的主材料之一。</entitydescription.lotm_lavaoctopus_blood>
+
+  <entityname.lotm_starcrystal>星水晶</entityname.lotm_starcrystal>
+  <entitydescription.lotm_starcrystal>含有星辉的透明晶体，夜里会自行发出极淡的蓝光。占卜家魔药的主材料之一。</entitydescription.lotm_starcrystal>
+
+  <entityname.lotm_purewater>纯水</entityname.lotm_purewater>
+  <entitydescription.lotm_purewater>经过多次蒸馏的纯水。几乎所有魔药配方都要用到它。</entitydescription.lotm_purewater>
+
+  <entityname.lotm_nightgrass>夜香草汁液</entityname.lotm_nightgrass>
+  <entitydescription.lotm_nightgrass>只在夜间开花的草药榨出的汁液，气味甜腻得有些发苦。</entitydescription.lotm_nightgrass>
+
+  <entityname.lotm_goldmint>金薄荷叶</entityname.lotm_goldmint>
+  <entitydescription.lotm_goldmint>叶片边缘泛着金线的薄荷，含在舌下会让思维变得异常清晰。</entitydescription.lotm_goldmint>
+
+  <entityname.lotm_hemlock>毒堇汁</entityname.lotm_hemlock>
+  <entitydescription.lotm_hemlock>剧毒，但微量时能让魔药"稳定下来"。几乎所有魔药都需要几滴。</entitydescription.lotm_hemlock>
+
+  <entityname.lotm_dragonblood>龙血草粉末</entityname.lotm_dragonblood>
+  <entitydescription.lotm_dragonblood>晒干研磨后的暗红色粉末，闻起来像铁锈和旧纸。</entitydescription.lotm_dragonblood>
+
+  <entityname.lotm_goathorn>霍纳奇斯灰山羊独角结晶</entityname.lotm_goathorn>
+  <entitydescription.lotm_goathorn>成年霍纳奇斯灰山羊的独角，内部凝结成半透明的灰色晶体。小丑魔药的主材料之一。</entitydescription.lotm_goathorn>
+
+  <entityname.lotm_facerose>人脸玫瑰</entityname.lotm_facerose>
+  <entitydescription.lotm_facerose>花瓣上天然长着模糊的人脸轮廓，凑近看会觉得那些脸在笑。小丑魔药的主材料之一。</entitydescription.lotm_facerose>
+
+  <entityname.lotm_mandrake>曼陀罗汁液</entityname.lotm_mandrake>
+  <entitydescription.lotm_mandrake>从曼陀罗根中榨出的汁液，有轻微的致幻作用。</entitydescription.lotm_mandrake>
+
+  <entityname.lotm_sunflower>黑边太阳花粉末</entityname.lotm_sunflower>
+  <entitydescription.lotm_sunflower>花瓣边缘焦黑如烧灼，磨成粉末后仍带着暖意。</entitydescription.lotm_sunflower>
+
+  <entityname.lotm_goldcloak>金斗篷草粉末</entityname.lotm_goldcloak>
+  <entitydescription.lotm_goldcloak>整株植物像披着一件金色斗篷，研磨后呈暗金色。</entitydescription.lotm_goldcloak>
+
+  <entityname.lotm_misttreant_root>迷雾树人真实根茎</entityname.lotm_misttreant_root>
+  <entitydescription.lotm_misttreant_root>从迷雾树人身上取下的根茎，触感温热，断面会渗出白雾。魔术师魔药的主材料之一。</entitydescription.lotm_misttreant_root>
+
+  <entityname.lotm_blackpanther_marrow>邪纹黑豹脊髓液</entityname.lotm_blackpanther_marrow>
+  <entitydescription.lotm_blackpanther_marrow>泛着幽光的透明液体，倒映出的影像总是慢半拍。魔术师魔药的主材料之一。</entitydescription.lotm_blackpanther_marrow>
+
+  <entityname.lotm_misttreant_juice>迷雾树人汁液</entityname.lotm_misttreant_juice>
+  <entitydescription.lotm_misttreant_juice>从迷雾树人根茎中榨取的汁液，会自行蒸发成一小团雾。</entitydescription.lotm_misttreant_juice>
+
+  <entityname.lotm_watergem>水形宝石粉末</entityname.lotm_watergem>
+  <entitydescription.lotm_watergem>形如水滴的宝石磨成的粉末，永远保持着流动的错觉。</entitydescription.lotm_watergem>
+
+  <entityname.lotm_hallucinogen>迷幻草精油</entityname.lotm_hallucinogen>
+  <entitydescription.lotm_hallucinogen>气味甜腻的精油，闻久了会看见不存在的色彩。</entitydescription.lotm_hallucinogen>
+
+  <!-- ================= 非凡特性 ================= -->
+  <entityname.lotm_char_diviner>占卜家非凡特性</entityname.lotm_char_diviner>
+  <entitydescription.lotm_char_diviner>从一位占卜家体内剥离出的途径核心，像一团凝固的深蓝雾气。可替代主材料配制占卜家魔药。</entitydescription.lotm_char_diviner>
+
+  <entityname.lotm_char_clown>小丑非凡特性</entityname.lotm_char_clown>
+  <entitydescription.lotm_char_clown>残留着滑稽笑意的金色结晶，握在手里会听到极轻的笑声。可替代主材料配制小丑魔药。</entitydescription.lotm_char_clown>
+
+  <entityname.lotm_char_magician>魔术师非凡特性</entityname.lotm_char_magician>
+  <entitydescription.lotm_char_magician>不断变换色彩与形状的碎片，盯久了会头晕。可替代主材料配制魔术师魔药。</entitydescription.lotm_char_magician>
+
+  <!-- ================= 魔药 ================= -->
+  <entityname.lotm_potion_seq9>占卜家魔药</entityname.lotm_potion_seq9>
+  <entitydescription.lotm_potion_seq9>粘稠的深蓝色液体，表面飘着虚幻白雾，液体内部布满相互联结、永不分离的细密纹路。喝下后踏上愚者途径。扮演守则：帮他人解读命运启示，向善引导，敬畏命运，但不可完全依赖占卜。</entitydescription.lotm_potion_seq9>
+
+  <entityname.lotm_potion_seq8>小丑魔药</entityname.lotm_potion_seq8>
+  <entitydescription.lotm_potion_seq8>金、黄、红三色交融的澄澈液体，瓶内气泡不断上浮却冲不破液面。扮演守则：看透命运却心怀无奈，用欢笑掩盖悲伤与迷茫。</entitydescription.lotm_potion_seq8>
+
+  <entityname.lotm_potion_seq7>魔术师魔药</entityname.lotm_potion_seq7>
+  <entitydescription.lotm_potion_seq7>液体内部持续绽放红橙黄绿的烟火，无固定形态。扮演守则：以技巧与幻象取信于人，永远让观众相信他们看到的。</entitydescription.lotm_potion_seq7>
+
+  <!-- ================= 工具 ================= -->
+  <entityname.lotm_divination_crystal>占卜水晶</entityname.lotm_divination_crystal>
+  <entitydescription.lotm_divination_crystal>占卜家的工具。使用会消耗灵性，并在反复的仪式中加深对途径的理解（扮演消化）。</entitydescription.lotm_divination_crystal>
+
+  <entityname.lotm_paper_figure>纸人</entityname.lotm_paper_figure>
+  <entitydescription.lotm_paper_figure>折得歪歪扭扭的纸人，据说能替主人挡下必死的一击。</entitydescription.lotm_paper_figure>
+
+  <!-- ================= 状态 ================= -->
+  <afflictionname.lotm_seq9>序列9·占卜家</afflictionname.lotm_seq9>
+  <afflictiondescription.lotm_seq9>你已成为占卜家。灵视范围扩大，生命上限小幅提升，皮肤泛起极淡的蓝色。不可完全依赖占卜预判一切。</afflictiondescription.lotm_seq9>
+
+  <afflictionname.lotm_seq8>序列8·小丑</afflictionname.lotm_seq8>
+  <afflictiondescription.lotm_seq8>身体协调性大幅提升：移动更快、近战更狠、更耐打、憋气更久。扮演守则：用欢笑掩盖悲伤。</afflictiondescription.lotm_seq8>
+
+  <afflictionname.lotm_seq7>序列7·魔术师</afflictionname.lotm_seq7>
+  <afflictiondescription.lotm_seq7>体质进一步增强，伤害抗性提高。扮演守则：让观众相信他们看到的。</afflictiondescription.lotm_seq7>
+
+  <afflictionname.lotm_spirituality>灵性</afflictionname.lotm_spirituality>
+  <afflictiondescription.lotm_spirituality>施法与占卜的燃料，会缓慢自然回复。灵性枯竭时继续施法会积累疯狂。</afflictiondescription.lotm_spirituality>
+
+  <afflictionname.lotm_madness>疯狂</afflictionname.lotm_madness>
+  <afflictiondescription.lotm_madness>不会自然消退。疯狂越高行动越迟缓，超过七成会持续侵蚀理智。只能靠扮演消化来平复。</afflictiondescription.lotm_madness>
+
+  <afflictionname.lotm_digest9>扮演：占卜家</afflictionname.lotm_digest9>
+  <afflictiondescription.lotm_digest>消化当前魔药的进度。反复使用该序列的能力会推进它，并缓慢平复疯狂。</afflictiondescription.lotm_digest>
+
+  <afflictionname.lotm_digest8>扮演：小丑</afflictionname.lotm_digest8>
+
+  <afflictionname.lotm_digest7>扮演：魔术师</afflictionname.lotm_digest7>
+
+  <!-- ================= 魔药基液 ================= -->
+  <entityname.lotm_base9>占卜家魔药基液</entityname.lotm_base9>
+  <entitydescription.lotm_base9>按原著比例熬好的深蓝色基液，还差主材料。制造台只有五个输入格，所以先熬基液。</entitydescription.lotm_base9>
+
+  <entityname.lotm_base8>小丑魔药基液</entityname.lotm_base8>
+  <entitydescription.lotm_base8>金黄色的粘稠基液，倒入主材料后才会开始冒泡。</entitydescription.lotm_base8>
+
+  <entityname.lotm_base7>魔术师魔药基液</entityname.lotm_base7>
+  <entitydescription.lotm_base7>澄澈却不断折射出杂色的基液，闻起来像雨后的金属。</entitydescription.lotm_base7>
+
+  <!-- ================= 灵视 ================= -->
+  <afflictionname.lotm_spiritvision>灵视</afflictionname.lotm_spiritvision>
+  <afflictiondescription.lotm_spiritvision>主动开启的神秘学视觉。持续消耗灵性；灵性耗尽会被强行掐断，并留下短暂的头痛。</afflictiondescription.lotm_spiritvision>
+
+  <afflictionname.lotm_visionsick>灵视反噬</afflictionname.lotm_visionsick>
+  <afflictiondescription.lotm_visionsick>灵性枯竭后强行窥视灵界的后遗症：视野刺痛、脚步发虚。休息一会儿会自行消退。</afflictiondescription.lotm_visionsick>
+
+  <!-- ================= 脚本消息 ================= -->
+  <lotm.msg.losecontrol>你的意识被某种东西挤了出去。你失控了。</lotm.msg.losecontrol>
+  <lotm.msg.potion_same>魔药已经在你的血里了。再灌一份，只会让疯狂更重。</lotm.msg.potion_same>
+  <lotm.msg.potion_ok>魔药被你的身体接纳了。</lotm.msg.potion_ok>
+  <lotm.msg.potion_pain>晋升的剧痛撕扯着你的意识……</lotm.msg.potion_pain>
+  <lotm.msg.potion_reckless>你几乎没有消化就强行晋升，血肉在尖叫……</lotm.msg.potion_reckless>
+  <lotm.msg.no_pathway>你还没有踏上任何途径。</lotm.msg.no_pathway>
+  <lotm.msg.no_crystal>你需要随身携带一枚占卜水晶。</lotm.msg.no_crystal>
+  <lotm.msg.no_spirit_divine>灵性枯竭，你强行触碰命运，只看到一片血色。（疯狂 +5）</lotm.msg.no_spirit_divine>
+  <lotm.msg.divine_prefix>占卜：</lotm.msg.divine_prefix>
+  <lotm.msg.divine_ask>占卜「%s」：</lotm.msg.divine_ask>
+  <lotm.msg.divine_default>附近有活物吗</lotm.msg.divine_default>
+  <lotm.msg.divine_yes>答案是「有」。</lotm.msg.divine_yes>
+  <lotm.msg.divine_no>答案是「无」。</lotm.msg.divine_no>
+  <lotm.msg.divine_wrong>……但水晶里的雾气在翻涌，这一次也许不准。</lotm.msg.divine_wrong>
+  <lotm.msg.divine_lowdigest>（消化度太低，你几乎读不懂它。）</lotm.msg.divine_lowdigest>
+  <lotm.msg.vision_on>灵视开启。世界多了一层不该看见的颜色……灵性正在流失。</lotm.msg.vision_on>
+  <lotm.msg.vision_off>灵视关闭。</lotm.msg.vision_off>
+  <lotm.msg.vision_low_spirit>灵性不足，无法开启灵视。</lotm.msg.vision_low_spirit>
+  <lotm.msg.vision_collapse>灵性枯竭，灵视被强行掐断。你头痛欲裂。</lotm.msg.vision_collapse>
+  <lotm.msg.status_prefix>生命</lotm.msg.status_prefix>
+  <lotm.msg.seq_none>未入门</lotm.msg.seq_none>
+
+  <!-- ================= HUD ================= -->
+  <lotm.hud.title>愚者途径</lotm.hud.title>
+  <lotm.hud.novice>未入门</lotm.hud.novice>
+  <lotm.hud.hp>生命</lotm.hud.hp>
+  <lotm.hud.sp>灵性</lotm.hud.sp>
+  <lotm.hud.mad>疯狂</lotm.hud.mad>
+  <lotm.hud.dig>消化</lotm.hud.dig>
+  <lotm.hud.none>——</lotm.hud.none>
+  <lotm.hud.vision>灵视</lotm.hud.vision>
+  <lotm.hud.divine>占卜</lotm.hud.divine>
+
+  <!-- ================= 指令与关键词 ================= -->
+  <lotm.cmd.help>!lotm</lotm.cmd.help>
+  <lotm.cmd.status>!status|!状态</lotm.cmd.status>
+  <lotm.cmd.vision>!vision|!灵视</lotm.cmd.vision>
+  <lotm.cmd.divine>!divine|!占卜</lotm.cmd.divine>
+  <lotm.cmd.hud>!hud|!界面</lotm.cmd.hud>
+  <lotm.kw.monster>怪物,活物,危险,敌,monster,alive,danger,enemy</lotm.kw.monster>
+  <lotm.kw.crew>队友,船员,同伴,crew,hurt,team</lotm.kw.crew>
+
+</infotexts>

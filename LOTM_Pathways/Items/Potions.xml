@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Items>
+
+  <!-- ============================================================
+       非凡特性：从死者身上剥离的途径核心（死后由脚本掉落）
+       ============================================================ -->
+
+  <Item name="" identifier="lotm_char_diviner" category="Material" Tags="smallitem,chem" maxstacksize="8" maxstacksizecharacterinventory="2" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.6" impactsoundtag="impact_metal_light">
+    <Price baseprice="500" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="960,384,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Alien/AlienMaterials.png" sourcerect="266,430,45,76" depth="0.55" origin="0.5,0.5" />
+    <Body width="20" height="32" density="9.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_char_clown" category="Material" Tags="smallitem,chem" maxstacksize="8" maxstacksizecharacterinventory="2" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.6" impactsoundtag="impact_metal_light">
+    <Price baseprice="700" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="962,322,61,61" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Alien/AlienMaterials.png" sourcerect="105,439,52,61" depth="0.55" origin="0.5,0.5" />
+    <Body width="20" height="30" density="9.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_char_magician" category="Material" Tags="smallitem,chem" maxstacksize="8" maxstacksizecharacterinventory="2" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.6" impactsoundtag="impact_metal_light">
+    <Price baseprice="900" minavailable="1">
+      <Price storeidentifier="merchantresearch" multiplier="1.0" minavailable="1" />
+    </Price>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="962,450,59,61" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Alien/AlienMaterials.png" sourcerect="97,349,58,71" depth="0.55" origin="0.5,0.5" />
+    <Body width="20" height="32" density="9.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <!-- ============================================================
+       魔药基液：医疗制造台只有 5 个输入格，所以把辅助材料先熬成基液
+       ============================================================ -->
+
+  <Item name="" identifier="lotm_base9" category="Material" Tags="smallitem,chem" maxstacksize="8" maxstacksizecharacterinventory="2" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Fabricate suitablefabricators="medicalfabricator" requiredtime="25" amount="1">
+      <RequiredSkill identifier="medical" level="10" />
+      <RequiredItem identifier="lotm_purewater" amount="2" />
+      <RequiredItem identifier="lotm_nightgrass" />
+      <RequiredItem identifier="lotm_goldmint" />
+      <RequiredItem identifier="lotm_hemlock" />
+      <RequiredItem identifier="lotm_dragonblood" />
+    </Fabricate>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="960,576,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="187,138,38,71" depth="0.6" origin="0.5,0.5" />
+    <Body width="22" height="40" density="10.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_base8" category="Material" Tags="smallitem,chem" maxstacksize="8" maxstacksizecharacterinventory="2" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Fabricate suitablefabricators="medicalfabricator" requiredtime="30" amount="1">
+      <RequiredSkill identifier="medical" level="12" />
+      <RequiredItem identifier="lotm_purewater" amount="2" />
+      <RequiredItem identifier="lotm_mandrake" />
+      <RequiredItem identifier="lotm_sunflower" />
+      <RequiredItem identifier="lotm_goldcloak" />
+      <RequiredItem identifier="lotm_hemlock" />
+    </Fabricate>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="514,832,62,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="223,69,38,70" depth="0.6" origin="0.5,0.5" />
+    <Body width="22" height="40" density="10.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <Item name="" identifier="lotm_base7" category="Material" Tags="smallitem,chem" maxstacksize="8" maxstacksizecharacterinventory="2" canbepicked="true" description="" cargocontaineridentifier="chemicalcrate" scale="0.5" impactsoundtag="impact_metal_light">
+    <Fabricate suitablefabricators="medicalfabricator" requiredtime="35" amount="1">
+      <RequiredSkill identifier="medical" level="15" />
+      <RequiredItem identifier="lotm_purewater" amount="2" />
+      <RequiredItem identifier="lotm_misttreant_juice" />
+      <RequiredItem identifier="lotm_watergem" />
+      <RequiredItem identifier="lotm_hallucinogen" />
+    </Fabricate>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="65,391,63,52" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="37,138,38,71" depth="0.6" origin="0.5,0.5" />
+    <Body width="22" height="40" density="10.0" />
+    <Holdable slots="Any,RightHand,LeftHand" msg="ItemMsgPickUpSelect" handle1="0,0" />
+  </Item>
+
+  <!-- ============================================================
+       魔药：两条路线
+       A 原著配方（主材料 + 基液）
+       B 非凡特性替代主材料（继承死者途径）
+       风险判定由脚本 lotm.potion 处理
+       ============================================================ -->
+
+  <Item name="" identifier="lotm_potion_seq9" category="Medical" Tags="smallitem,medical" maxstacksize="8" maxstacksizecharacterinventory="2" cargocontaineridentifier="mediccrate" description="" scale="0.5" impactsoundtag="impact_metal_light" useinhealthinterface="true" RequireAimToUse="True">
+    <Fabricate suitablefabricators="medicalfabricator" requiredtime="40" amount="1">
+      <RequiredSkill identifier="medical" level="15" />
+      <RequiredItem identifier="lotm_base9" />
+      <RequiredItem identifier="lotm_lavaoctopus_blood" />
+      <RequiredItem identifier="lotm_starcrystal" amount="2" />
+    </Fabricate>
+    <Fabricate suitablefabricators="medicalfabricator" requiredtime="35" amount="1">
+      <RequiredSkill identifier="medical" level="15" />
+      <RequiredItem identifier="lotm_base9" />
+      <RequiredItem identifier="lotm_char_diviner" />
+    </Fabricate>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="192,64,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="187,138,38,71" depth="0.6" origin="0.5,0.5" />
+    <Body width="22" height="40" density="10.0" />
+    <MeleeWeapon canBeCombined="true" removeOnCombined="true" slots="Any,RightHand,LeftHand" aimpos="40,5" handle1="0,0" holdangle="10" reload="1.0" msg="ItemMsgPickUpSelect" HitOnlyCharacters="true">
+      <StatusEffect type="OnUse" target="This" Condition="-100.0" setvalue="true" disabledeltatime="true" />
+      <StatusEffect type="OnUse" target="UseTarget">
+        <Hook name="lotm.potion" custom="9" />
+      </StatusEffect>
+      <StatusEffect type="OnUse" target="UseTarget" disabledeltatime="true">
+        <Affliction identifier="lotm_seq9" amount="100" />
+        <Affliction identifier="lotm_spirituality" amount="100" />
+        <ReduceAffliction identifier="lotm_seq8" amount="1000" />
+        <ReduceAffliction identifier="lotm_seq7" amount="1000" />
+        <ReduceAffliction identifier="lotm_digest8" amount="1000" />
+        <ReduceAffliction identifier="lotm_digest7" amount="1000" />
+      </StatusEffect>
+    </MeleeWeapon>
+  </Item>
+
+  <Item name="" identifier="lotm_potion_seq8" category="Medical" Tags="smallitem,medical" maxstacksize="8" maxstacksizecharacterinventory="2" cargocontaineridentifier="mediccrate" description="" scale="0.5" impactsoundtag="impact_metal_light" useinhealthinterface="true" RequireAimToUse="True">
+    <Fabricate suitablefabricators="medicalfabricator" requiredtime="50" amount="1">
+      <RequiredSkill identifier="medical" level="20" />
+      <RequiredItem identifier="lotm_base8" />
+      <RequiredItem identifier="lotm_goathorn" />
+      <RequiredItem identifier="lotm_facerose" />
+    </Fabricate>
+    <Fabricate suitablefabricators="medicalfabricator" requiredtime="45" amount="1">
+      <RequiredSkill identifier="medical" level="20" />
+      <RequiredItem identifier="lotm_base8" />
+      <RequiredItem identifier="lotm_char_clown" />
+    </Fabricate>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="448,771,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="223,69,38,70" depth="0.6" origin="0.5,0.5" />
+    <Body width="22" height="40" density="10.0" />
+    <MeleeWeapon canBeCombined="true" removeOnCombined="true" slots="Any,RightHand,LeftHand" aimpos="40,5" handle1="0,0" holdangle="10" reload="1.0" msg="ItemMsgPickUpSelect" HitOnlyCharacters="true">
+      <StatusEffect type="OnUse" target="This" Condition="-100.0" setvalue="true" disabledeltatime="true" />
+      <StatusEffect type="OnUse" target="UseTarget">
+        <Hook name="lotm.potion" custom="8" />
+      </StatusEffect>
+      <StatusEffect type="OnUse" target="UseTarget" disabledeltatime="true">
+        <Affliction identifier="lotm_seq8" amount="100" />
+        <Affliction identifier="lotm_spirituality" amount="100" />
+        <ReduceAffliction identifier="lotm_seq9" amount="1000" />
+        <ReduceAffliction identifier="lotm_seq7" amount="1000" />
+        <ReduceAffliction identifier="lotm_digest9" amount="1000" />
+        <ReduceAffliction identifier="lotm_digest7" amount="1000" />
+      </StatusEffect>
+    </MeleeWeapon>
+  </Item>
+
+  <Item name="" identifier="lotm_potion_seq7" category="Medical" Tags="smallitem,medical" maxstacksize="8" maxstacksizecharacterinventory="2" cargocontaineridentifier="mediccrate" description="" scale="0.5" impactsoundtag="impact_metal_light" useinhealthinterface="true" RequireAimToUse="True">
+    <Fabricate suitablefabricators="medicalfabricator" requiredtime="60" amount="1">
+      <RequiredSkill identifier="medical" level="25" />
+      <RequiredItem identifier="lotm_base7" />
+      <RequiredItem identifier="lotm_misttreant_root" />
+      <RequiredItem identifier="lotm_blackpanther_marrow" />
+    </Fabricate>
+    <Fabricate suitablefabricators="medicalfabricator" requiredtime="55" amount="1">
+      <RequiredSkill identifier="medical" level="25" />
+      <RequiredItem identifier="lotm_base7" />
+      <RequiredItem identifier="lotm_char_magician" />
+    </Fabricate>
+    <InventoryIcon texture="Content/Items/InventoryIconAtlas.png" sourcerect="896,960,64,64" origin="0.5,0.5" />
+    <Sprite texture="Content/Items/Medical/Medicines.png" sourcerect="37,138,38,71" depth="0.6" origin="0.5,0.5" />
+    <Body width="22" height="40" density="10.0" />
+    <MeleeWeapon canBeCombined="true" removeOnCombined="true" slots="Any,RightHand,LeftHand" aimpos="40,5" handle1="0,0" holdangle="10" reload="1.0" msg="ItemMsgPickUpSelect" HitOnlyCharacters="true">
+      <StatusEffect type="OnUse" target="This" Condition="-100.0" setvalue="true" disabledeltatime="true" />
+      <StatusEffect type="OnUse" target="UseTarget">
+        <Hook name="lotm.potion" custom="7" />
+      </StatusEffect>
+      <StatusEffect type="OnUse" target="UseTarget" disabledeltatime="true">
+        <Affliction identifier="lotm_seq7" amount="100" />
+        <Affliction identifier="lotm_spirituality" amount="100" />
+        <ReduceAffliction identifier="lotm_seq9" amount="1000" />
+        <ReduceAffliction identifier="lotm_seq8" amount="1000" />
+        <ReduceAffliction identifier="lotm_digest9" amount="1000" />
+        <ReduceAffliction identifier="lotm_digest8" amount="1000" />
+      </StatusEffect>
+    </MeleeWeapon>
+  </Item>
+
+</Items>

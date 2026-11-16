@@ -1,0 +1,108 @@
+========================================================================
+  愚者途径 LOTM Pathways  v0.3.0
+  潜渊症 x 诡秘之主 · 愚者途径（占卜家 → 小丑 → 魔术师）
+  依赖 LuaCsForBarotrauma（创意工坊，必须启用）
+========================================================================
+
+【v0.3 修了什么】
+v0.2 的脚本完全没被执行。原因已确认：
+  LuaCs 1.0.117 的二进制里没有扫描 Lua/Autorun 目录的代码，
+  只认 ModConfig.xml 里的显式声明。
+所以这一版改成：
+  1. 新增 ModConfig.xml，显式声明 Lua/lotm.lua 并 IsAutorun="true"
+  2. 脚本开头打印运行环境（SERVER / CLIENT），方便排查
+  3. 脚本改成纯 ASCII，所有中文提示放进 Texts，用 TextManager 读取
+  4. 去掉 v0.2 里那句 if SERVER then return end（单机可能直接返回）
+
+【启用】
+主菜单 → 模组 → 启用「LuaCsForBarotrauma」和「愚者途径 LOTM Pathways」
+注意顺序：LuaCs 在上，本 mod 在下。
+
+【怎么确认脚本活了】
+进游戏后按 F3 打开控制台，应该能看到：
+    [LOTM] boot: SERVER=... CLIENT=...
+    [LOTM] HUD created
+    [LOTM] init done
+聊天框输入 !lotm，应该回一条：
+    [LOTM] online SERVER=... CLIENT=...
+
+一条都没有 → 脚本还没加载，把控制台截图发我。
+
+【聊天指令（中英都支持）】
+    注意：这些是"聊天指令"，要按 T 打开游戏内聊天框输入，
+          不是按 F3 的调试控制台（那里只认 spawnitem 这类命令）。
+
+    !状态   / !status        查看生命/灵性/疯狂/消化/序列
+    !灵视   / !vision        开/关灵视（需要已踏上途径，灵性 ≥ 20）
+    !占卜 问题 / !divine 问题  占卜（需要随身携带占卜水晶，消耗 30 灵性）
+    !界面   / !hud           显示/隐藏左下角面板
+    !lotm                    自检，确认脚本在线
+
+    改完 lua 文件后，在 F3 控制台输入 cl_reloadluacs 即可热重载，不用重启游戏。
+
+占卜能识别的问题：
+    怪物 / 活物 / 危险 / 敌   → 附近有没有活着的非人类
+    队友 / 船员 / 同伴        → 有没有重伤的船员
+    其他                      → 随机（准不准看消化度）
+
+【HUD（实验性）】
+左下角面板显示：
+    愚者途径 - 序列9·占卜家
+    生命 [########--] 88/105
+    灵性 [#######---] 72
+    疯狂 [##--------] 18
+    消化 [####------] 40
+    [灵视]  [占卜]
+
+没出现就用聊天指令，功能一样。
+
+【测试用控制台指令】
+    enablecheats
+    spawnitem lotm_potion_seq9
+    spawnitem lotm_base9
+    spawnitem lotm_divination_crystal
+    giveaffliction lotm_seq9 100
+    giveaffliction lotm_madness 90      （想看失控就调到 90 再喝一瓶）
+    reloadlua                           重载服务器脚本
+    cl_reloadlua                        重载客户端脚本（改完 lua 用这个）
+
+【玩法循环】
+1. 医疗台熬基液（医疗 10/12/15）→ 基液 + 主材料合成魔药（医疗 15/20/25）
+2. 喝下第一瓶 → 踏上序列 9
+3. !灵视 → 灵性持续流失，枯竭自动关闭 + 灵视反噬
+4. !占卜 → 灵性 -30，消化 +8
+5. 消化高了再喝下一瓶 → 风险低；没消化硬喝 → 疯狂飙升
+6. 疯狂满 100 → 失控死亡，尸体旁掉出非凡特性
+
+【物品 ID】
+材料：lotm_lavaoctopus_blood / lotm_starcrystal / lotm_purewater / lotm_nightgrass
+      lotm_goldmint / lotm_hemlock / lotm_dragonblood / lotm_goathorn / lotm_facerose
+      lotm_mandrake / lotm_sunflower / lotm_goldcloak / lotm_misttreant_root
+      lotm_blackpanther_marrow / lotm_misttreant_juice / lotm_watergem / lotm_hallucinogen
+基液：lotm_base9 / lotm_base8 / lotm_base7
+特性：lotm_char_diviner / lotm_char_clown / lotm_char_magician
+魔药：lotm_potion_seq9 / lotm_potion_seq8 / lotm_potion_seq7
+工具：lotm_divination_crystal / lotm_paper_figure
+状态：lotm_seq9/8/7 · lotm_spirituality · lotm_madness · lotm_digest9/8/7
+      lotm_spiritvision · lotm_visionsick
+
+【配方（全部 ≤5 格）】
+基液9 = 纯水×2 + 夜香草 + 金薄荷 + 毒堇 + 龙血草         医疗 10
+魔药9 = 基液9 + 拉瓦章鱼血液 + 星水晶×2                   医疗 15
+      或 基液9 + 占卜家非凡特性                           医疗 15
+基液8 = 纯水×2 + 曼陀罗 + 黑边太阳花 + 金斗篷草 + 毒堇    医疗 12
+魔药8 = 基液8 + 灰山羊独角结晶 + 人脸玫瑰                 医疗 20
+      或 基液8 + 小丑非凡特性                             医疗 20
+基液7 = 纯水×2 + 迷雾树人汁液 + 水形宝石 + 迷幻草精油     医疗 15
+魔药7 = 基液7 + 迷雾树人根茎 + 邪纹黑豹脊髓液             医疗 25
+      或 基液7 + 魔术师非凡特性                           医疗 25
+
+【已知限制】
+- HUD 属实验性挂载，显示异常就用聊天指令
+- 多人模式未做联网同步（单机优先）
+- 占卜是关键词匹配 + 真实游戏状态，不是自由问答
+- 纸人替死、火焰跳跃等主动技能尚未实装
+
+【出问题怎么报】
+控制台里带 [LOTM] 的行、红色 Lua 报错，截图发我。
+========================================================================
