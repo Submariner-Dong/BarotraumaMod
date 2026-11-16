@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<contentpackage name="愚者途径 LOTM Pathways" modversion="0.1.0" corepackage="False" gameversion="1.13.5.0">
-  <Afflictions file="%ModDir%/Afflictions.xml" />
-  <Item file="%ModDir%/Items/Materials.xml" />
-  <Item file="%ModDir%/Items/Potions.xml" />
-  <Item file="%ModDir%/Items/Tools.xml" />
-  <Text file="%ModDir%/Texts/Chinese.xml" />
-  <Text file="%ModDir%/Texts/English.xml" />
-</contentpackage>
