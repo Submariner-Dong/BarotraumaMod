@@ -713,7 +713,7 @@ Hook.Add("think", "lotm.deathwatch", function(deltaTime)
             if ch ~= nil and ch.IsHuman and not ch.IsDead then
                 local hp, maxhp = 100, 100
                 pcall(function() hp = ch.Health; maxhp = ch.MaxHealth end)
-                if maxhp ~= nil and maxhp > 0 and hp <= maxhp * 0.03 then
+                if hp ~= nil and maxhp ~= nil and maxhp > 0 and hp <= maxhp * 0.03 then
                     paperSave(ch)
                 end
             end
@@ -751,6 +751,9 @@ Hook.Add("character.death", "lotm.death", function(character, causeAffliction, c
         end
     end
 end)
+
+local lastLogic = 0
+
 local function logicTick()
     local ch = Character.Controlled
     if ch ~= nil and not ch.IsDead then
@@ -771,7 +774,6 @@ local function logicTick()
         end
         checkLoseControl(ch)
     end
-    pcall(deathDrop)
 end
 
 -- ============================================================
@@ -889,6 +891,8 @@ local function updateHUD()
     pcall(function()
         local hp, maxhp = 0, 100
         pcall(function() hp = ch.Health; maxhp = ch.MaxHealth end)
+        if hp == nil then hp = 0 end
+        if maxhp == nil or maxhp <= 0 then maxhp = 100 end
         hudText.title.Text = L("lotm.hud.title") .. " - " .. (seq and L(SEQ[seq].nameKey) or L("lotm.hud.novice"))
             .. "  " .. L("lotm.hud.hp") .. " " .. math.floor(hp + 0.5) .. "/" .. math.floor(maxhp + 0.5)
     end)
@@ -927,6 +931,8 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
             local seq = currentSeq(ch)
             local hp, maxhp = 0, 0
             pcall(function() hp = ch.Health; maxhp = ch.MaxHealth end)
+            if hp == nil then hp = 0 end
+            if maxhp == nil then maxhp = 0 end
             local text = L("lotm.msg.status_prefix")
                 .. " " .. math.floor(hp) .. "/" .. math.floor(maxhp)
                 .. " | " .. L("lotm.hud.sp") .. " " .. math.floor(amount(ch, SPIRIT))
