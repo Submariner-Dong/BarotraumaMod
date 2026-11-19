@@ -197,6 +197,7 @@
   <!-- ================= 转移 / 纸人护佑 ================= -->
   <lotm.cmd.shift>!shift|!转移</lotm.cmd.shift>
   <lotm.cmd.dart>!dart|!飞镖</lotm.cmd.dart>
+  <lotm.cmd.aim>!aim|!瞄准</lotm.cmd.aim>
   <lotm.cmd.cannon>!cannon|!空气炮</lotm.cmd.cannon>
   <lotm.msg.dart_ok>一张纸在你手里变成了飞镖，钉进了目标身上。</lotm.msg.dart_ok>
   <lotm.msg.cannon_ok>压缩的空气轰然射出。</lotm.msg.cannon_ok>

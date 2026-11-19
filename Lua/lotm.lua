@@ -41,6 +41,7 @@ local DEFAULTS = {
     ["lotm.cmd.illusion"]  = "!illusion",
     ["lotm.cmd.shift"]     = "!shift",
     ["lotm.cmd.dart"]      = "!dart",
+    ["lotm.cmd.aim"]       = "!aim",
     ["lotm.cmd.cannon"]    = "!cannon",
     ["lotm.cmd.divine"]  = "!divine",
     ["lotm.kw.monster"]  = "monster,alive,danger,enemy",
@@ -569,33 +570,37 @@ end
 local function aimTarget(ch, maxDist, minDot)
     local from, to = nil, nil
     pcall(function() from = ch.WorldPosition; to = ch.CursorWorldPosition end)
-    if from == nil or to == nil then return nil end
-    local dx, dy = to.X - from.X, to.Y - from.Y
-    local len = math.sqrt(dx * dx + dy * dy)
-    if len < 1 then return nil end
-    local ux, uy = dx / len, dy / len
+    if from == nil then return nil end
+    local ux, uy = 1, 0
+    if to ~= nil then
+        local dx, dy = to.X - from.X, to.Y - from.Y
+        local len = math.sqrt(dx * dx + dy * dy)
+        if len >= 1 then ux, uy = dx / len, dy / len end
+    end
     local best, bestDist = nil, 1e9
+    local fallback, fallbackDist = nil, 1e9
     pcall(function()
         for other in Character.CharacterList do
             if other ~= nil and not other.IsHuman and not other.IsDead then
                 local ox, oy = other.WorldPosition.X - from.X, other.WorldPosition.Y - from.Y
                 local d = math.sqrt(ox * ox + oy * oy)
                 if d > 0 and d <= maxDist then
+                    if d < fallbackDist then fallback, fallbackDist = other, d end
                     local dot = (ox / d) * ux + (oy / d) * uy
                     if dot >= minDot and d < bestDist then best, bestDist = other, d end
                 end
             end
         end
     end)
-    return best
+    return best or fallback
 end
-
 local function burnNear(point, radius, amount)
     pcall(function()
         for other in Character.CharacterList do
             if other ~= nil and not other.IsHuman and not other.IsDead then
-                local d = 0
-                pcall(function() d = Vector2.Distance(other.WorldPosition, point) end)
+                local dx = other.WorldPosition.X - point.X
+                local dy = other.WorldPosition.Y - point.Y
+                local d = math.sqrt(dx * dx + dy * dy)
                 if d > 0 and d <= radius then
                     local limb = other.AnimController.GetLimb(LimbType.Torso)
                     local prefab = AfflictionPrefab.Prefabs["burn"]
@@ -604,6 +609,23 @@ local function burnNear(point, radius, amount)
                     end
                 end
             end
+        end
+    end)
+end
+
+-- visual only: harmless flame particles
+local function fireFx(point)
+    pcall(function()
+        local pm = GameMain.ParticleManager
+        if pm == nil then return end
+        for i = 1, 10 do
+            local ang = math.random() * math.pi * 2
+            local spd = 20 + math.random() * 70
+            pcall(function() pm.CreateParticle("flame", point, ang, spd, nil, 0.05) end)
+        end
+        for i = 1, 4 do
+            local ang = math.random() * math.pi * 2
+            pcall(function() pm.CreateParticle("smoke", point, ang, 15, nil, 0.05) end)
         end
     end)
 end
@@ -633,6 +655,8 @@ local function flameJump(client)
     pcall(function() ch.TeleportTo(dest) end)
     burnNear(from, 200, 12 * powerScale(ch))
     burnNear(dest, 200, 12 * powerScale(ch))
+    fireFx(from)
+    fireFx(dest)
     reply("lotm.msg.jump_on", COLOR_NORMAL, client)
 end
 
@@ -1273,6 +1297,25 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
     for _, a in ipairs(aliases("lotm.cmd.illusion")) do
         if message == a then
             castIllusion(client)
+            return true
+        end
+    end
+    for _, a in ipairs(aliases("lotm.cmd.aim")) do
+        if message == a then
+            local ch = Character.Controlled
+            if ch == nil then return true end
+            local nd = 1e9
+            pcall(function()
+                for other in Character.CharacterList do
+                    if other ~= nil and not other.IsHuman and not other.IsDead then
+                        local dx = other.WorldPosition.X - ch.WorldPosition.X
+                        local dy = other.WorldPosition.Y - ch.WorldPosition.Y
+                        local d = math.sqrt(dx * dx + dy * dy)
+                        if d < nd then nd = d end
+                    end
+                end
+            end)
+            send("[LOTM] nearest=" .. string.format("%.0f", nd) .. " (dart 380 / cannon 420)", COLOR_NORMAL, client)
             return true
         end
     end

@@ -196,6 +196,7 @@
   <!-- ================= Shift / paper ward ================= -->
   <lotm.cmd.shift>!shift</lotm.cmd.shift>
   <lotm.cmd.dart>!dart</lotm.cmd.dart>
+  <lotm.cmd.aim>!aim</lotm.cmd.aim>
   <lotm.cmd.cannon>!cannon</lotm.cmd.cannon>
   <lotm.msg.dart_ok>A paper figure folds into a dart in your hand and buries itself in the target.</lotm.msg.dart_ok>
   <lotm.msg.cannon_ok>Compressed air roars out.</lotm.msg.cannon_ok>
