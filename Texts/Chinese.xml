@@ -123,6 +123,7 @@
   <!-- ================= 脚本消息 ================= -->
   <lotm.msg.losecontrol>你的意识被某种东西挤了出去。你失控了。</lotm.msg.losecontrol>
   <lotm.msg.potion_same>魔药已经在你的血里了。再灌一份，只会让疯狂更重。</lotm.msg.potion_same>
+  <lotm.msg.potion_skip>你直接喝下了远超自身位阶的魔药，它在你体内炸开了。</lotm.msg.potion_skip>
   <lotm.msg.potion_ok>魔药被你的身体接纳了。</lotm.msg.potion_ok>
   <lotm.msg.potion_pain>晋升的剧痛撕扯着你的意识……</lotm.msg.potion_pain>
   <lotm.msg.potion_reckless>你几乎没有消化就强行晋升，血肉在尖叫……</lotm.msg.potion_reckless>

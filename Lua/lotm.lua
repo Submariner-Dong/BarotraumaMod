@@ -261,12 +261,19 @@ Hook.Add("lotm.potion", "lotm.potion", function(effect, deltaTime, item, targets
     local cur = currentSeq(ch)
 
     if cur ~= nil and seq == cur then
-        addAmount(ch, MADNESS, 20)
+        addAmount(ch, MADNESS, 40)
         tell("lotm.msg.potion_same", COLOR_WARN)
         checkLoseControl(ch)
         return true
     end
 
+    -- a mortal drinking anything above sequence 9 goes mad almost instantly
+    if cur == nil and seq < 9 then
+        addAmount(ch, MADNESS, 100)
+        tell("lotm.msg.potion_skip", COLOR_BAD)
+        checkLoseControl(ch)
+        return true
+    end
     local digest = 0
     if cur ~= nil then digest = amount(ch, SEQ[cur].digest) end
 
@@ -276,7 +283,7 @@ Hook.Add("lotm.potion", "lotm.potion", function(effect, deltaTime, item, targets
     elseif seq == cur - 1 then
         risk = 100 - digest
     else
-        risk = 120
+        risk = 140
     end
 
     local gain
@@ -661,6 +668,32 @@ end)
 -- ============================================================
 local tracked = {}
 local dropped = {}
+
+-- paper figure also saves you from affliction death (bleeding, lacerations, etc.)
+Hook.Add("character.death", "lotm.death", function(character, causeAffliction, causeDeathType)
+    if character == nil then return end
+    local human = false
+    pcall(function() human = character.IsHuman end)
+    if not human then return end
+
+    local seq = tracked[character.ID]
+    if seq == nil then seq = currentSeq(character) end
+    if seq == nil or seq > 8 then return end
+    if countItem(character, PAPER) <= 0 then return end
+    if not cdReady(character, "paper", 90) then return end
+
+    consumeItem(character, PAPER)
+    local maxhp = 100
+    pcall(function() maxhp = character.MaxHealth end)
+    tracked[character.ID] = nil
+    pcall(function() character.Revive(false, true) end)
+    setVitality(character, maxhp * 0.15)
+    applyAmount(character, "bleeding", 25)
+    applyAmount(character, "internaldamage", 25)
+    addAmount(character, MADNESS, 25)
+    addAmount(character, SEQ[seq].digest, 10)
+    tell("lotm.msg.paper_save", COLOR_BAD)
+end)
 local lastLogic = 0
 
 local function deathDrop()
@@ -822,7 +855,10 @@ local function updateHUD()
     if seq ~= nil then dig = amount(ch, SEQ[seq].digest) end
 
     pcall(function()
+        local hp, maxhp = 0, 100
+        pcall(function() hp = ch.Health; maxhp = ch.MaxHealth end)
         hudText.title.Text = L("lotm.hud.title") .. " - " .. (seq and L(SEQ[seq].nameKey) or L("lotm.hud.novice"))
+            .. "  " .. L("lotm.hud.hp") .. " " .. math.floor(hp + 0.5) .. "/" .. math.floor(maxhp + 0.5)
     end)
     setBar(bars.sp, sp, 100)
     setBar(bars.mad, mad, 100)
