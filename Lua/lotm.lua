@@ -741,10 +741,25 @@ local function shiftWounds(client)
     local moved = 0
     for _, w in ipairs(src.list) do
         local amount = w.strength * 0.6
+        -- take it off the source limb
         pcall(function() ch.CharacterHealth.ReduceAfflictionOnLimb(src.limb, w.id, amount, nil, nil) end)
+
+        -- create it on the destination, then write the strength directly so the
+        -- engine's 100/MaxVitality normalisation and max-strength clamp do not eat it
         local prefab = AfflictionPrefab.Prefabs[w.id]
         if prefab ~= nil then
-            pcall(function() ch.CharacterHealth.ApplyAffliction(dst.limb, prefab.Instantiate(amount * vs)) end)
+            local dstAff = nil
+            pcall(function() dstAff = ch.CharacterHealth.GetAffliction(w.id, dst.limb) end)
+            if dstAff == nil then
+                pcall(function() ch.CharacterHealth.ApplyAffliction(dst.limb, prefab.Instantiate(0.1)) end)
+                pcall(function() dstAff = ch.CharacterHealth.GetAffliction(w.id, dst.limb) end)
+            end
+            if dstAff ~= nil then
+                local cur = 0
+                pcall(function() cur = dstAff.Strength end)
+                if cur == nil then cur = 0 end
+                pcall(function() dstAff.Strength = cur + amount end)
+            end
         end
         moved = moved + amount
     end
