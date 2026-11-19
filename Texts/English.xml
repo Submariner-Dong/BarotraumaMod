@@ -161,6 +161,21 @@
   <lotm.cmd.hud>!hud</lotm.cmd.hud>
   <lotm.cmd.debug>!debug</lotm.cmd.debug>
   <lotm.cmd.pos>!pos</lotm.cmd.pos>
+  <lotm.cmd.jump>!jump</lotm.cmd.jump>
+  <lotm.cmd.illusion>!illusion</lotm.cmd.illusion>
+
+  <!-- ================= Skills ================= -->
+  <lotm.msg.paper_save>A paper figure burns to ash in your place; the killing blow is stopped. You are badly hurt.</lotm.msg.paper_save>
+  <lotm.msg.damage_transfer>A paper figure takes part of the damage.</lotm.msg.damage_transfer>
+  <lotm.msg.illusion_on>An illusion unfolds; monsters lose track of you.</lotm.msg.illusion_on>
+  <lotm.msg.need_seq7>Requires Sequence 7 - Magician.</lotm.msg.need_seq7>
+  <lotm.msg.need_seq8>Requires Sequence 8 - Clown.</lotm.msg.need_seq8>
+  <lotm.msg.cooldown>That ability is still on cooldown.</lotm.msg.cooldown>
+  <lotm.msg.low_spirit>Not enough spirituality.</lotm.msg.low_spirit>
+  <lotm.msg.jump_on>Flame jump.</lotm.msg.jump_on>
+  <lotm.msg.no_paper>You have no paper figure.</lotm.msg.no_paper>
+  <afflictionname.lotm_illusion>Illusion</afflictionname.lotm_illusion>
+  <afflictiondescription.lotm_illusion>A trick of light and shadow. Monsters ignore you for a while.</afflictiondescription.lotm_illusion>
   <lotm.kw.monster>monster,alive,danger,enemy</lotm.kw.monster>
   <lotm.kw.crew>crew,hurt,team</lotm.kw.crew>
 

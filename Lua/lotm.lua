@@ -37,6 +37,8 @@ local DEFAULTS = {
     ["lotm.cmd.hud"]     = "!hud",
     ["lotm.cmd.debug"]   = "!debug",
     ["lotm.cmd.pos"]     = "!pos",
+    ["lotm.cmd.jump"]      = "!jump",
+    ["lotm.cmd.illusion"]  = "!illusion",
     ["lotm.cmd.divine"]  = "!divine",
     ["lotm.kw.monster"]  = "monster,alive,danger,enemy",
     ["lotm.kw.crew"]     = "crew,hurt,team",
@@ -437,6 +439,168 @@ local function toggleVision(client)
 end
 
 -- ============================================================
+-- v0.4 skills: paper figure, damage transfer, flame jump, illusion
+-- ============================================================
+local PAPER = "lotm_paper_figure"
+local ILLUSION = "lotm_illusion"
+
+local Keys = nil
+pcall(function() Keys = LuaUserData.CreateStatic("Microsoft.Xna.Framework.Input.Keys", true) end)
+
+local cooldowns = {}
+local illusionUntil = {}
+
+local function nowSeconds()
+    local t = 0
+    pcall(function() t = os.clock() end)
+    return t
+end
+
+local function cdReady(ch, skill, seconds)
+    local key = tostring(ch.ID) .. ":" .. skill
+    local t = nowSeconds()
+    if t - (cooldowns[key] or -99999) >= seconds then
+        cooldowns[key] = t
+        return true
+    end
+    return false
+end
+
+local function itemById(id)
+    local p = nil
+    pcall(function() p = ItemPrefab.GetItemPrefab(id) end)
+    return p
+end
+
+local function countItem(ch, id)
+    local prefab = itemById(id)
+    if prefab == nil then return 0 end
+    local n = 0
+    pcall(function()
+        for item in ch.Inventory.AllItems do
+            if item ~= nil and item.Prefab == prefab then n = n + 1 end
+        end
+    end)
+    return n
+end
+
+local function consumeItem(ch, id)
+    local prefab = itemById(id)
+    if prefab == nil then return false end
+    local target = nil
+    pcall(function()
+        for item in ch.Inventory.AllItems do
+            if item ~= nil and item.Prefab == prefab then target = item; break end
+        end
+    end)
+    if target == nil then return false end
+    pcall(function() Entity.Spawner.AddEntityToRemoveQueue(target) end)
+    return true
+end
+
+local function setVitality(ch, v)
+    pcall(function() ch.CharacterHealth.SetVitality(v) end)
+end
+
+-- paper figure blocks a lethal hit (seq 8+), damage transfer splits a heavy hit (seq 7)
+Hook.Add("character.applyDamage", "lotm.damage", function(characterHealth, attackResult, hitLimb, allowStacking)
+    local ch = nil
+    pcall(function() ch = characterHealth.Character end)
+    if ch == nil or attackResult == nil then return end
+    local human = false
+    pcall(function() human = ch.IsHuman end)
+    if not human then return end
+
+    local seq = currentSeq(ch)
+    if seq == nil then return end
+
+    local dmg = 0
+    pcall(function() dmg = attackResult.Damage end)
+    if dmg == nil or dmg <= 0 then return end
+
+    local hp, maxhp = 100, 100
+    pcall(function() hp = ch.Health; maxhp = ch.MaxHealth end)
+    if maxhp == nil or maxhp <= 0 then maxhp = 100 end
+
+    if dmg >= hp and seq <= 8 then
+        if countItem(ch, PAPER) > 0 and cdReady(ch, "paper", 90) then
+            consumeItem(ch, PAPER)
+            pcall(function() attackResult.Damage = 0 end)
+            setVitality(ch, maxhp * 0.15)
+            applyAmount(ch, "bleeding", 25)
+            applyAmount(ch, "internaldamage", 25)
+            addAmount(ch, MADNESS, 25)
+            addAmount(ch, SEQ[seq].digest, 10)
+            tell("lotm.msg.paper_save", COLOR_BAD)
+            return
+        end
+    end
+
+    if seq <= 7 and dmg >= maxhp * 0.2 then
+        if countItem(ch, PAPER) > 0 and cdReady(ch, "transfer", 15) then
+            consumeItem(ch, PAPER)
+            pcall(function() attackResult.Damage = dmg * 0.6 end)
+            addAmount(ch, SEQ[seq].digest, 6)
+            tell("lotm.msg.damage_transfer", COLOR_NORMAL)
+        end
+    end
+end)
+
+-- flame jump: short blink toward the cursor, no wall phasing (best effort)
+local function flameJump(client)
+    local ch = getChar()
+    if ch == nil then return end
+    local seq = currentSeq(ch)
+    if seq == nil or seq > 7 then reply("lotm.msg.need_seq7", COLOR_WARN, client) return end
+    if amount(ch, SPIRIT) < 35 then reply("lotm.msg.low_spirit", COLOR_WARN, client) return end
+    if not cdReady(ch, "jump", 20) then reply("lotm.msg.cooldown", COLOR_WARN, client) return end
+
+    local from, to = nil, nil
+    pcall(function() from = ch.WorldPosition; to = ch.CursorWorldPosition end)
+    if from == nil or to == nil then return end
+
+    local dx, dy = to.X - from.X, to.Y - from.Y
+    local len = math.sqrt(dx * dx + dy * dy)
+    if len < 1 then return end
+
+    local dist = 300
+    if len < dist then dist = len end
+    local dest = Vector2(from.X + dx / len * dist, from.Y + dy / len * dist)
+
+    setAmount(ch, SPIRIT, amount(ch, SPIRIT) - 35)
+    addAmount(ch, SEQ[seq].digest, 12)
+    pcall(function() ch.TeleportTo(dest) end)
+    reply("lotm.msg.jump_on", COLOR_NORMAL, client)
+end
+
+-- illusion: monsters ignore you for 8 seconds
+local function castIllusion(client)
+    local ch = getChar()
+    if ch == nil then return end
+    local seq = currentSeq(ch)
+    if seq == nil or seq > 7 then reply("lotm.msg.need_seq7", COLOR_WARN, client) return end
+    if amount(ch, SPIRIT) < 25 then reply("lotm.msg.low_spirit", COLOR_WARN, client) return end
+    if not cdReady(ch, "illusion", 45) then reply("lotm.msg.cooldown", COLOR_WARN, client) return end
+
+    setAmount(ch, SPIRIT, amount(ch, SPIRIT) - 25)
+    setAmount(ch, ILLUSION, 100)
+    addAmount(ch, SEQ[seq].digest, 8)
+    illusionUntil[ch.ID] = nowSeconds() + 8
+    reply("lotm.msg.illusion_on", COLOR_NORMAL, client)
+end
+
+Hook.Add("keyUpdate", "lotm.keys", function(deltaTime)
+    if Keys == nil then return end
+    local alt = false
+    pcall(function() alt = PlayerInput.IsAltDown() end)
+    if not alt then return end
+    local j, i = false, false
+    pcall(function() j = PlayerInput.KeyHit(Keys.D1) end)
+    pcall(function() i = PlayerInput.KeyHit(Keys.D2) end)
+    if j then flameJump(nil) end
+    if i then castIllusion(nil) end
+end)
+-- ============================================================
 -- per second logic
 -- ============================================================
 local tracked = {}
@@ -479,6 +643,10 @@ local function logicTick()
             else
                 setAmount(ch, SPIRIT, sp - VISION_DRAIN)
             end
+        end
+        if illusionUntil[ch.ID] ~= nil and nowSeconds() > illusionUntil[ch.ID] then
+            illusionUntil[ch.ID] = nil
+            setAmount(ch, ILLUSION, 0)
         end
         checkLoseControl(ch)
     end
@@ -698,6 +866,19 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
                 pcall(function() hudPanel.RectTransform.AbsoluteOffset = Point(HUD_PRESETS[hudPreset][1], HUD_PRESETS[hudPreset][2]) end)
             end
             send("[LOTM] position " .. tostring(hudPreset), COLOR_NORMAL, client)
+            return true
+        end
+    end
+    for _, a in ipairs(aliases("lotm.cmd.jump")) do
+        if message == a then
+            flameJump(client)
+            return true
+        end
+    end
+
+    for _, a in ipairs(aliases("lotm.cmd.illusion")) do
+        if message == a then
+            castIllusion(client)
             return true
         end
     end

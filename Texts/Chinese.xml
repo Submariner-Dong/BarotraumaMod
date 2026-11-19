@@ -162,6 +162,21 @@
   <lotm.cmd.hud>!hud|!界面</lotm.cmd.hud>
   <lotm.cmd.debug>!debug|!调试</lotm.cmd.debug>
   <lotm.cmd.pos>!pos|!位置</lotm.cmd.pos>
+  <lotm.cmd.jump>!jump|!跳跃</lotm.cmd.jump>
+  <lotm.cmd.illusion>!illusion|!幻术</lotm.cmd.illusion>
+
+  <!-- ================= 技能 ================= -->
+  <lotm.msg.paper_save>一个纸人替你烧成了灰，致命伤被挡了下来。你伤得很重。</lotm.msg.paper_save>
+  <lotm.msg.damage_transfer>伤害被纸人分担了一部分。</lotm.msg.damage_transfer>
+  <lotm.msg.illusion_on>幻术展开，怪物暂时注意不到你。</lotm.msg.illusion_on>
+  <lotm.msg.need_seq7>需要序列7·魔术师才能使用。</lotm.msg.need_seq7>
+  <lotm.msg.need_seq8>需要序列8·小丑才能使用。</lotm.msg.need_seq8>
+  <lotm.msg.cooldown>能力还在冷却。</lotm.msg.cooldown>
+  <lotm.msg.low_spirit>灵性不足。</lotm.msg.low_spirit>
+  <lotm.msg.jump_on>火焰跳跃。</lotm.msg.jump_on>
+  <lotm.msg.no_paper>你身上没有纸人。</lotm.msg.no_paper>
+  <afflictionname.lotm_illusion>幻术</afflictionname.lotm_illusion>
+  <afflictiondescription.lotm_illusion>魔术师制造的光影骗局。怪物会暂时忽略你的存在。</afflictiondescription.lotm_illusion>
   <lotm.kw.monster>怪物,活物,危险,敌,monster,alive,danger,enemy</lotm.kw.monster>
   <lotm.kw.crew>队友,船员,同伴,crew,hurt,team</lotm.kw.crew>
 
