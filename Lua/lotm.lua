@@ -616,8 +616,10 @@ end
 
 -- visual only: harmless flame particles
 local function fireFx(point)
+    -- particles (needs the static wrapper, GameMain is not a plain global)
     pcall(function()
-        local pm = GameMain.ParticleManager
+        local gm = LuaUserData.CreateStatic("Barotrauma.GameMain")
+        local pm = gm.ParticleManager
         if pm == nil then return end
         for i = 1, 10 do
             local ang = math.random() * math.pi * 2
@@ -629,7 +631,13 @@ local function fireFx(point)
             pcall(function() pm.CreateParticle("smoke", point, ang, 15, nil, 0.05, nil) end)
         end
     end)
+    -- harmless blast flash as a guaranteed visual
+    pcall(function()
+        local exp = Explosion(0.6, 0, 0, 0, 0, 0, 0)
+        exp.Explode(point, nil)
+    end)
 end
+
 -- flame jump: short blink toward the cursor, no wall phasing (best effort)
 local function flameJump(client)
     local ch = getChar()
@@ -1307,12 +1315,18 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
             if ch == nil then return true end
             local pos = nil
             pcall(function() pos = ch.WorldPosition end)
-            local ok, err = pcall(function()
-                local pm = GameMain.ParticleManager
+            local okP, errP = pcall(function()
+                local gm = LuaUserData.CreateStatic("Barotrauma.GameMain")
+                local pm = gm.ParticleManager
                 if pm == nil then error("no ParticleManager") end
                 pm.CreateParticle("flame", pos, 0, 40, nil, 0.05, nil)
             end)
-            send("[LOTM] fx ok=" .. tostring(ok) .. " err=" .. tostring(err), COLOR_NORMAL, client)
+            local okE, errE = pcall(function()
+                local exp = Explosion(0.6, 0, 0, 0, 0, 0, 0)
+                exp.Explode(pos, nil)
+            end)
+            send("[LOTM] particle=" .. tostring(okP) .. " " .. tostring(errP)
+                .. " | explosion=" .. tostring(okE) .. " " .. tostring(errE), COLOR_NORMAL, client)
             return true
         end
     end
