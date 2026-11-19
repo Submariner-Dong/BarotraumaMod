@@ -177,6 +177,19 @@
   <lotm.msg.no_paper>你身上没有纸人。</lotm.msg.no_paper>
   <afflictionname.lotm_illusion>幻术</afflictionname.lotm_illusion>
   <afflictiondescription.lotm_illusion>魔术师制造的光影骗局。怪物会暂时忽略你的存在。</afflictiondescription.lotm_illusion>
+
+  <!-- ================= 按键设置 ================= -->
+  <LOTM_Pathways.JumpKey.DisplayName>火焰跳跃</LOTM_Pathways.JumpKey.DisplayName>
+  <LOTM_Pathways.JumpKey.DisplayCategory>愚者途径</LOTM_Pathways.JumpKey.DisplayCategory>
+  <LOTM_Pathways.JumpKey.Tooltip>按下此键施展火焰跳跃（需要序列7·魔术师，消耗 35 灵性）</LOTM_Pathways.JumpKey.Tooltip>
+
+  <LOTM_Pathways.IllusionKey.DisplayName>幻术</LOTM_Pathways.IllusionKey.DisplayName>
+  <LOTM_Pathways.IllusionKey.DisplayCategory>愚者途径</LOTM_Pathways.IllusionKey.DisplayCategory>
+  <LOTM_Pathways.IllusionKey.Tooltip>按下此键展开幻术，8 秒内怪物忽略你（需要序列7，消耗 25 灵性）</LOTM_Pathways.IllusionKey.Tooltip>
+
+  <LOTM_Pathways.VisionKey.DisplayName>灵视</LOTM_Pathways.VisionKey.DisplayName>
+  <LOTM_Pathways.VisionKey.DisplayCategory>愚者途径</LOTM_Pathways.VisionKey.DisplayCategory>
+  <LOTM_Pathways.VisionKey.Tooltip>开关灵视，开启时持续消耗灵性</LOTM_Pathways.VisionKey.Tooltip>
   <lotm.kw.monster>怪物,活物,危险,敌,monster,alive,danger,enemy</lotm.kw.monster>
   <lotm.kw.crew>队友,船员,同伴,crew,hurt,team</lotm.kw.crew>
 

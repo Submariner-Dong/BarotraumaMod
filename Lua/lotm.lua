@@ -589,16 +589,72 @@ local function castIllusion(client)
     reply("lotm.msg.illusion_on", COLOR_NORMAL, client)
 end
 
+-- key bindings come from LuaCs config (Config/ConfigClient.xml, Type="control"),
+-- so players can rebind them in the LuaCs mod settings menu.
+local SettingControl = nil
+pcall(function() SettingControl = LuaUserData.CreateStatic("Barotrauma.LuaCs.Data.ISettingControl") end)
+
+local function findOwnPackage()
+    local found = nil
+    pcall(function()
+        for pkg in ContentPackageManager.AllPackages do
+            local path = ""
+            pcall(function() path = tostring(pkg.Path) end)
+            if string.find(path, "LOTM_Pathways", 1, true) ~= nil then
+                found = pkg
+                break
+            end
+        end
+    end)
+    return found
+end
+
+local jumpKey, illusionKey, visionKey = nil, nil, nil
+do
+    local pkg = nil
+    if SettingControl ~= nil then pkg = findOwnPackage() end
+    local function load(name)
+        local cfg = nil
+        if pkg ~= nil then
+            pcall(function()
+                local ok, c = ConfigService.TryGetConfig(SettingControl, pkg, name)
+                if ok then cfg = c end
+            end)
+        end
+        return cfg
+    end
+    jumpKey = load("JumpKey")
+    illusionKey = load("IllusionKey")
+    visionKey = load("VisionKey")
+    print("[LOTM] keys jump=" .. tostring(jumpKey ~= nil) .. " illusion=" .. tostring(illusionKey ~= nil) .. " vision=" .. tostring(visionKey ~= nil))
+end
+
 Hook.Add("keyUpdate", "lotm.keys", function(deltaTime)
-    if Keys == nil then return end
-    local alt = false
-    pcall(function() alt = PlayerInput.IsAltDown() end)
-    if not alt then return end
-    local j, i = false, false
-    pcall(function() j = PlayerInput.KeyHit(Keys.D1) end)
-    pcall(function() i = PlayerInput.KeyHit(Keys.D2) end)
-    if j then flameJump(nil) end
-    if i then castIllusion(nil) end
+    -- never fire while typing in chat or a text box
+    local busy = false
+    pcall(function() busy = GUI.KeyboardDispatcher.Subscriber ~= nil end)
+    if busy then return end
+
+    local function hit(cfg)
+        if cfg == nil then return false end
+        local r = false
+        pcall(function() r = cfg.IsHit() end)
+        return r
+    end
+
+    if hit(jumpKey) then flameJump(nil) end
+    if hit(illusionKey) then castIllusion(nil) end
+    if hit(visionKey) then toggleVision(nil) end
+
+    -- fallback for when the config service is unavailable
+    if jumpKey == nil and Keys ~= nil then
+        local alt, j = false, false
+        pcall(function() alt = PlayerInput.IsAltDown() end)
+        if alt then
+            pcall(function() j = PlayerInput.KeyHit(Keys.D1) end)
+            if j then flameJump(nil) end
+        end
+    end
 end)
 -- ============================================================
 -- per second logic

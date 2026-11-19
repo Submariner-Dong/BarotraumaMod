@@ -176,6 +176,19 @@
   <lotm.msg.no_paper>You have no paper figure.</lotm.msg.no_paper>
   <afflictionname.lotm_illusion>Illusion</afflictionname.lotm_illusion>
   <afflictiondescription.lotm_illusion>A trick of light and shadow. Monsters ignore you for a while.</afflictiondescription.lotm_illusion>
+
+  <!-- ================= Key bindings ================= -->
+  <LOTM_Pathways.JumpKey.DisplayName>Flame Jump</LOTM_Pathways.JumpKey.DisplayName>
+  <LOTM_Pathways.JumpKey.DisplayCategory>Fool Pathway</LOTM_Pathways.JumpKey.DisplayCategory>
+  <LOTM_Pathways.JumpKey.Tooltip>Press to flame jump (requires Sequence 7 - Magician, costs 35 spirituality)</LOTM_Pathways.JumpKey.Tooltip>
+
+  <LOTM_Pathways.IllusionKey.DisplayName>Illusion</LOTM_Pathways.IllusionKey.DisplayName>
+  <LOTM_Pathways.IllusionKey.DisplayCategory>Fool Pathway</LOTM_Pathways.IllusionKey.DisplayCategory>
+  <LOTM_Pathways.IllusionKey.Tooltip>Press to cast an illusion; monsters ignore you for 8 seconds (requires Sequence 7, costs 25 spirituality)</LOTM_Pathways.IllusionKey.Tooltip>
+
+  <LOTM_Pathways.VisionKey.DisplayName>Spirit Vision</LOTM_Pathways.VisionKey.DisplayName>
+  <LOTM_Pathways.VisionKey.DisplayCategory>Fool Pathway</LOTM_Pathways.VisionKey.DisplayCategory>
+  <LOTM_Pathways.VisionKey.Tooltip>Toggle spirit vision; drains spirituality while active</LOTM_Pathways.VisionKey.Tooltip>
   <lotm.kw.monster>monster,alive,danger,enemy</lotm.kw.monster>
   <lotm.kw.crew>crew,hurt,team</lotm.kw.crew>
 

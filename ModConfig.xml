@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModConfig>
     <Lua File="%ModDir%/Lua/lotm.lua" IsAutorun="true" Target="Any" Name="lotm" />
+    <Config File="%ModDir%/Config/ConfigClient.xml" Target="Client" />
 </ModConfig>
