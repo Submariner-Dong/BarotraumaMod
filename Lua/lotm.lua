@@ -42,6 +42,7 @@ local DEFAULTS = {
     ["lotm.cmd.shift"]     = "!shift",
     ["lotm.cmd.dart"]      = "!dart",
     ["lotm.cmd.aim"]       = "!aim",
+    ["lotm.cmd.fx"]        = "!fx",
     ["lotm.cmd.cannon"]    = "!cannon",
     ["lotm.cmd.divine"]  = "!divine",
     ["lotm.kw.monster"]  = "monster,alive,danger,enemy",
@@ -621,11 +622,11 @@ local function fireFx(point)
         for i = 1, 10 do
             local ang = math.random() * math.pi * 2
             local spd = 20 + math.random() * 70
-            pcall(function() pm.CreateParticle("flame", point, ang, spd, nil, 0.05) end)
+            pcall(function() pm.CreateParticle("flame", point, ang, spd, nil, 0.05, nil) end)
         end
         for i = 1, 4 do
             local ang = math.random() * math.pi * 2
-            pcall(function() pm.CreateParticle("smoke", point, ang, 15, nil, 0.05) end)
+            pcall(function() pm.CreateParticle("smoke", point, ang, 15, nil, 0.05, nil) end)
         end
     end)
 end
@@ -1300,14 +1301,36 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
             return true
         end
     end
+    for _, a in ipairs(aliases("lotm.cmd.fx")) do
+        if message == a then
+            local ch = Character.Controlled
+            if ch == nil then return true end
+            local pos = nil
+            pcall(function() pos = ch.WorldPosition end)
+            local ok, err = pcall(function()
+                local pm = GameMain.ParticleManager
+                if pm == nil then error("no ParticleManager") end
+                pm.CreateParticle("flame", pos, 0, 40, nil, 0.05, nil)
+            end)
+            send("[LOTM] fx ok=" .. tostring(ok) .. " err=" .. tostring(err), COLOR_NORMAL, client)
+            return true
+        end
+    end
     for _, a in ipairs(aliases("lotm.cmd.aim")) do
         if message == a then
             local ch = Character.Controlled
             if ch == nil then return true end
+            local total, humans, monsters = 0, 0, 0
             local nd = 1e9
             pcall(function()
                 for other in Character.CharacterList do
-                    if other ~= nil and not other.IsHuman and not other.IsDead then
+                    total = total + 1
+                    local h = true
+                    pcall(function() h = other.IsHuman end)
+                    if h then
+                        humans = humans + 1
+                    else
+                        monsters = monsters + 1
                         local dx = other.WorldPosition.X - ch.WorldPosition.X
                         local dy = other.WorldPosition.Y - ch.WorldPosition.Y
                         local d = math.sqrt(dx * dx + dy * dy)
@@ -1315,7 +1338,11 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
                     end
                 end
             end)
-            send("[LOTM] nearest=" .. string.format("%.0f", nd) .. " (dart 380 / cannon 420)", COLOR_NORMAL, client)
+            local cx, cy = 0, 0
+            pcall(function() cx = ch.CursorWorldPosition.X; cy = ch.CursorWorldPosition.Y end)
+            send("[LOTM] chars=" .. total .. " human=" .. humans .. " monster=" .. monsters
+                .. " nearest=" .. string.format("%.0f", nd)
+                .. " cursor=" .. string.format("%.0f,%.0f", cx, cy), COLOR_NORMAL, client)
             return true
         end
     end
