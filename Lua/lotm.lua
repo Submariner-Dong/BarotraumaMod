@@ -740,7 +740,7 @@ local function shiftWounds(client)
 
     local moved = 0
     for _, w in ipairs(src.list) do
-        local amount = w.strength * 0.6
+        local amount = w.strength        -- move the whole wound, not a fraction
         -- take it off the source limb
         pcall(function() ch.CharacterHealth.ReduceAfflictionOnLimb(src.limb, w.id, amount, nil, nil) end)
 
