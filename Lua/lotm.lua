@@ -39,6 +39,7 @@ local DEFAULTS = {
     ["lotm.cmd.pos"]     = "!pos",
     ["lotm.cmd.jump"]      = "!jump",
     ["lotm.cmd.illusion"]  = "!illusion",
+    ["lotm.cmd.shift"]     = "!shift",
     ["lotm.cmd.divine"]  = "!divine",
     ["lotm.kw.monster"]  = "monster,alive,danger,enemy",
     ["lotm.kw.crew"]     = "crew,hurt,team",
@@ -209,7 +210,7 @@ local function hasCrystal(ch)
     if crystalPrefab == nil then return false end
     local found = false
     pcall(function()
-        for item in ch.Inventory.AllItems do
+        for item in ch.Inventory.AllItemsMod do
             if item ~= nil and item.Prefab == crystalPrefab then
                 found = true
                 break
@@ -491,7 +492,7 @@ local function countItem(ch, id)
     if prefab == nil then return 0 end
     local n = 0
     pcall(function()
-        for item in ch.Inventory.AllItems do
+        for item in ch.Inventory.AllItemsMod do
             if item ~= nil and item.Prefab == prefab then n = n + 1 end
         end
     end)
@@ -503,12 +504,15 @@ local function consumeItem(ch, id)
     if prefab == nil then return false end
     local target = nil
     pcall(function()
-        for item in ch.Inventory.AllItems do
+        for item in ch.Inventory.AllItemsMod do
             if item ~= nil and item.Prefab == prefab then target = item; break end
         end
     end)
     if target == nil then return false end
-    pcall(function() Entity.Spawner.AddEntityToRemoveQueue(target) end)
+    pcall(function()
+        if target.Inventory ~= nil then target.Inventory.RemoveItem(target) end
+    end)
+    pcall(function() target.Remove() end)
     return true
 end
 
@@ -550,14 +554,7 @@ Hook.Add("character.applyDamage", "lotm.damage", function(characterHealth, attac
         end
     end
 
-    if seq <= 7 and dmg >= maxhp * 0.2 then
-        if countItem(ch, PAPER) > 0 and cdReady(ch, "transfer", 15) then
-            consumeItem(ch, PAPER)
-            pcall(function() attackResult.Damage = dmg * 0.6 end)
-            addAmount(ch, SEQ[seq].digest, 6)
-            tell("lotm.msg.damage_transfer", COLOR_NORMAL)
-        end
-    end
+
 end)
 
 -- flame jump: short blink toward the cursor, no wall phasing (best effort)
@@ -623,7 +620,7 @@ local function findOwnPackage()
     return found
 end
 
-local jumpKey, illusionKey, visionKey = nil, nil, nil
+local jumpKey, illusionKey, visionKey, transferKey = nil, nil, nil, nil
 do
     local pkg = nil
     if SettingControl ~= nil then pkg = findOwnPackage() end
@@ -640,9 +637,59 @@ do
     jumpKey = load("JumpKey")
     illusionKey = load("IllusionKey")
     visionKey = load("VisionKey")
-    print("[LOTM] keys jump=" .. tostring(jumpKey ~= nil) .. " illusion=" .. tostring(illusionKey ~= nil) .. " vision=" .. tostring(visionKey ~= nil))
+    transferKey = load("TransferKey")
+    print("[LOTM] keys jump=" .. tostring(jumpKey ~= nil) .. " illusion=" .. tostring(illusionKey ~= nil) .. " vision=" .. tostring(visionKey ~= nil) .. " transfer=" .. tostring(transferKey ~= nil))
 end
 
+-- active: move leg injuries to the arms (sequence 7)
+local function shiftWounds(client)
+    local ch = getChar()
+    if ch == nil then return end
+    local seq = currentSeq(ch)
+    if seq == nil or seq > 7 then reply("lotm.msg.need_seq7", COLOR_WARN, client) return end
+    if amount(ch, SPIRIT) < 25 then reply("lotm.msg.low_spirit", COLOR_WARN, client) return end
+    if not cdReady(ch, "shift", 25) then reply("lotm.msg.cooldown", COLOR_WARN, client) return end
+
+    local maxhp = 100
+    pcall(function() maxhp = ch.MaxHealth end)
+    if maxhp == nil or maxhp <= 0 then maxhp = 100 end
+    local vs = maxhp / 100
+
+    local moved = 0
+    local limbPairs = { { LimbType.LeftLeg, LimbType.LeftArm }, { LimbType.RightLeg, LimbType.RightArm } }
+    for _, pair in ipairs(limbPairs) do
+        local src, dst = nil, nil
+        pcall(function() src = ch.AnimController.GetLimb(pair[1]) end)
+        pcall(function() dst = ch.AnimController.GetLimb(pair[2]) end)
+        if src ~= nil and dst ~= nil then
+            for _, id in ipairs({ "damage", "lacerations", "bleeding", "burn" }) do
+                local a = nil
+                pcall(function() a = ch.CharacterHealth.GetAffliction(id, src) end)
+                if a ~= nil then
+                    local strength = 0
+                    pcall(function() strength = a.Strength end)
+                    if strength ~= nil and strength > 1 then
+                        local amount = strength * 0.6
+                        pcall(function() ch.CharacterHealth.ReduceAfflictionOnLimb(src, id, amount, nil, nil) end)
+                        local prefab = AfflictionPrefab.Prefabs[id]
+                        if prefab ~= nil then
+                            pcall(function() ch.CharacterHealth.ApplyAffliction(dst, prefab.Instantiate(amount * vs)) end)
+                        end
+                        moved = moved + amount
+                    end
+                end
+            end
+        end
+    end
+
+    if moved <= 0 then
+        reply("lotm.msg.no_wound", COLOR_WARN, client)
+        return
+    end
+    setAmount(ch, SPIRIT, amount(ch, SPIRIT) - 25)
+    addAmount(ch, SEQ[seq].digest, 8)
+    reply("lotm.msg.shift_ok", COLOR_NORMAL, client)
+end
 Hook.Add("keyUpdate", "lotm.keys", function(deltaTime)
     -- never fire while typing in chat or a text box
     local busy = false
@@ -659,6 +706,7 @@ Hook.Add("keyUpdate", "lotm.keys", function(deltaTime)
     if hit(jumpKey) then flameJump(nil) end
     if hit(illusionKey) then castIllusion(nil) end
     if hit(visionKey) then toggleVision(nil) end
+    if hit(transferKey) then shiftWounds(nil) end
 
     -- fallback for when the config service is unavailable
     if jumpKey == nil and Keys ~= nil then
@@ -691,9 +739,11 @@ local function paperSave(ch)
     consumeItem(ch, PAPER)
     local maxhp = 100
     pcall(function() maxhp = ch.MaxHealth end)
-    setVitality(ch, maxhp * 0.15)
-    applyAmount(ch, "bleeding", 25)
-    applyAmount(ch, "internaldamage", 25)
+    setVitality(ch, maxhp * 0.30)
+    setAmount(ch, "lotm_paperward", 100)
+    pcall(function() ch.CharacterHealth.ReduceAfflictionOnAllLimbs("pressure", 1000, nil, nil) end)
+    applyAmount(ch, "bleeding", 15)
+    applyAmount(ch, "internaldamage", 15)
     addAmount(ch, MADNESS, 25)
     addAmount(ch, SEQ[seq].digest, 10)
     print("[LOTM] paper figure saved " .. tostring(ch.Name))
@@ -732,7 +782,8 @@ Hook.Add("character.death", "lotm.death", function(character, causeAffliction, c
         pcall(function() character.Revive(false, true) end)
         local maxhp = 100
         pcall(function() maxhp = character.MaxHealth end)
-        setVitality(character, maxhp * 0.15)
+        setVitality(character, maxhp * 0.30)
+        setAmount(character, "lotm_paperward", 100)
         return
     end
 
@@ -1009,6 +1060,12 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
     for _, a in ipairs(aliases("lotm.cmd.illusion")) do
         if message == a then
             castIllusion(client)
+            return true
+        end
+    end
+    for _, a in ipairs(aliases("lotm.cmd.shift")) do
+        if message == a then
+            shiftWounds(client)
             return true
         end
     end

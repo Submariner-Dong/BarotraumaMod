@@ -4,5 +4,6 @@
     <Setting Name="JumpKey" Type="control" Value="F" />
     <Setting Name="IllusionKey" Type="control" Value="G" />
     <Setting Name="VisionKey" Type="control" Value="V" />
+    <Setting Name="TransferKey" Type="control" Value="H" />
   </Settings>
 </Configuration>

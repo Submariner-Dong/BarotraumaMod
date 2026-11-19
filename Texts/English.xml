@@ -193,5 +193,14 @@
   <LOTM_Pathways.VisionKey.Tooltip>Toggle spirit vision; drains spirituality while active</LOTM_Pathways.VisionKey.Tooltip>
   <lotm.kw.monster>monster,alive,danger,enemy</lotm.kw.monster>
   <lotm.kw.crew>crew,hurt,team</lotm.kw.crew>
+  <!-- ================= Shift / paper ward ================= -->
+  <lotm.cmd.shift>!shift</lotm.cmd.shift>
+  <lotm.msg.shift_ok>You shift the wounds from your legs to your arms.</lotm.msg.shift_ok>
+  <lotm.msg.no_wound>No wounds on your legs to shift.</lotm.msg.no_wound>
+  <afflictionname.lotm_paperward>Paper Ward</afflictionname.lotm_paperward>
+  <afflictiondescription.lotm_paperward>A brief ward left behind when a paper figure takes a lethal blow: 4 seconds of immunity to damage and pressure.</afflictiondescription.lotm_paperward>
+  <LOTM_Pathways.TransferKey.DisplayName>Damage Shift</LOTM_Pathways.TransferKey.DisplayName>
+  <LOTM_Pathways.TransferKey.DisplayCategory>Fool Pathway</LOTM_Pathways.TransferKey.DisplayCategory>
+  <LOTM_Pathways.TransferKey.Tooltip>Press to shift leg wounds to your arms (requires Sequence 7, costs 25 spirituality)</LOTM_Pathways.TransferKey.Tooltip>
 
 </infotexts>

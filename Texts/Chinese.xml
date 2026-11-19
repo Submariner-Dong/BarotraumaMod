@@ -194,5 +194,14 @@
   <LOTM_Pathways.VisionKey.Tooltip>开关灵视，开启时持续消耗灵性</LOTM_Pathways.VisionKey.Tooltip>
   <lotm.kw.monster>怪物,活物,危险,敌,monster,alive,danger,enemy</lotm.kw.monster>
   <lotm.kw.crew>队友,船员,同伴,crew,hurt,team</lotm.kw.crew>
+  <!-- ================= 转移 / 纸人护佑 ================= -->
+  <lotm.cmd.shift>!shift|!转移</lotm.cmd.shift>
+  <lotm.msg.shift_ok>你把腿上的伤转移到了手臂上。</lotm.msg.shift_ok>
+  <lotm.msg.no_wound>腿上没有可以转移的伤。</lotm.msg.no_wound>
+  <afflictionname.lotm_paperward>纸人护佑</afflictionname.lotm_paperward>
+  <afflictiondescription.lotm_paperward>纸人替你挡下致命伤后留下的短暂庇护，4 秒内免疫伤害与水压。</afflictiondescription.lotm_paperward>
+  <LOTM_Pathways.TransferKey.DisplayName>伤害转移</LOTM_Pathways.TransferKey.DisplayName>
+  <LOTM_Pathways.TransferKey.DisplayCategory>愚者途径</LOTM_Pathways.TransferKey.DisplayCategory>
+  <LOTM_Pathways.TransferKey.Tooltip>按下此键把腿上的伤转移到手臂（需要序列7，消耗 25 灵性）</LOTM_Pathways.TransferKey.Tooltip>
 
 </infotexts>

@@ -119,4 +119,12 @@
     </Effect>
     <icon texture="Content/UI/MainIconsAtlas.png" sourcerect="896,896,128,128" color="150,120,220,255" origin="0,0" />
   </Affliction>
+  <!-- ============================================================
+       纸人护佑：纸人替身触发后的短暂庇护，抵挡水压与持续伤害
+       ============================================================ -->
+  <Affliction name="" identifier="lotm_paperward" description="" isbuff="true" limbspecific="false" maxstrength="100" MedicalSkillGain="0">
+    <Description textidentifier="afflictiondescription.lotm_paperward" target="Self" />
+    <Effect minstrength="0" maxstrength="100" strengthchange="-25" resistancefor="damage,pressure,bleeding,burn" minresistance="1.0" maxresistance="1.0" />
+    <icon texture="Content/UI/MainIconsAtlas.png" sourcerect="640,896,128,128" color="255,220,150,255" origin="0,0" />
+  </Affliction>
 </Afflictions>
