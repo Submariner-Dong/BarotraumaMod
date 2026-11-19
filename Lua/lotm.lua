@@ -40,6 +40,8 @@ local DEFAULTS = {
     ["lotm.cmd.jump"]      = "!jump",
     ["lotm.cmd.illusion"]  = "!illusion",
     ["lotm.cmd.shift"]     = "!shift",
+    ["lotm.cmd.dart"]      = "!dart",
+    ["lotm.cmd.cannon"]    = "!cannon",
     ["lotm.cmd.divine"]  = "!divine",
     ["lotm.kw.monster"]  = "monster,alive,danger,enemy",
     ["lotm.kw.crew"]     = "crew,hurt,team",
@@ -557,6 +559,54 @@ Hook.Add("character.applyDamage", "lotm.damage", function(characterHealth, attac
 
 end)
 
+-- shared helpers for active skills
+local function powerScale(ch)
+    local s = currentSeq(ch)
+    if s == nil then return 1.0 end
+    if s <= 7 then return 1.25 elseif s == 8 then return 1.0 else return 0.9 end
+end
+
+local function aimTarget(ch, maxDist, minDot)
+    local from, to = nil, nil
+    pcall(function() from = ch.WorldPosition; to = ch.CursorWorldPosition end)
+    if from == nil or to == nil then return nil end
+    local dx, dy = to.X - from.X, to.Y - from.Y
+    local len = math.sqrt(dx * dx + dy * dy)
+    if len < 1 then return nil end
+    local ux, uy = dx / len, dy / len
+    local best, bestDist = nil, 1e9
+    pcall(function()
+        for other in Character.CharacterList do
+            if other ~= nil and not other.IsHuman and not other.IsDead then
+                local ox, oy = other.WorldPosition.X - from.X, other.WorldPosition.Y - from.Y
+                local d = math.sqrt(ox * ox + oy * oy)
+                if d > 0 and d <= maxDist then
+                    local dot = (ox / d) * ux + (oy / d) * uy
+                    if dot >= minDot and d < bestDist then best, bestDist = other, d end
+                end
+            end
+        end
+    end)
+    return best
+end
+
+local function burnNear(point, radius, amount)
+    pcall(function()
+        for other in Character.CharacterList do
+            if other ~= nil and not other.IsHuman and not other.IsDead then
+                local d = 0
+                pcall(function() d = Vector2.Distance(other.WorldPosition, point) end)
+                if d > 0 and d <= radius then
+                    local limb = other.AnimController.GetLimb(LimbType.Torso)
+                    local prefab = AfflictionPrefab.Prefabs["burn"]
+                    if prefab ~= nil then
+                        other.CharacterHealth.ApplyAffliction(limb, prefab.Instantiate(amount))
+                    end
+                end
+            end
+        end
+    end)
+end
 -- flame jump: short blink toward the cursor, no wall phasing (best effort)
 local function flameJump(client)
     local ch = getChar()
@@ -574,16 +624,71 @@ local function flameJump(client)
     local len = math.sqrt(dx * dx + dy * dy)
     if len < 1 then return end
 
-    local dist = 300
+    local dist = 300 * powerScale(ch)
     if len < dist then dist = len end
     local dest = Vector2(from.X + dx / len * dist, from.Y + dy / len * dist)
 
     setAmount(ch, SPIRIT, amount(ch, SPIRIT) - 35)
     addAmount(ch, SEQ[seq].digest, 12)
     pcall(function() ch.TeleportTo(dest) end)
+    burnNear(from, 200, 12 * powerScale(ch))
+    burnNear(dest, 200, 12 * powerScale(ch))
     reply("lotm.msg.jump_on", COLOR_NORMAL, client)
 end
 
+-- paper dart (sequence 8+): turn a paper figure into a throwing blade
+local function throwDart(client)
+    local ch = getChar()
+    if ch == nil then return end
+    local seq = currentSeq(ch)
+    if seq == nil or seq > 8 then reply("lotm.msg.need_seq8", COLOR_WARN, client) return end
+    if amount(ch, SPIRIT) < 10 then reply("lotm.msg.low_spirit", COLOR_WARN, client) return end
+    if not cdReady(ch, "dart", 6) then reply("lotm.msg.cooldown", COLOR_WARN, client) return end
+    if countItem(ch, PAPER) <= 0 then reply("lotm.msg.no_paper", COLOR_WARN, client) return end
+
+    local target = aimTarget(ch, 380, 0.7)
+    if target == nil then reply("lotm.msg.no_target", COLOR_WARN, client) return end
+
+    consumeItem(ch, PAPER)
+    local dmg = 30 * powerScale(ch)
+    local limb = nil
+    pcall(function() limb = target.AnimController.GetLimb(LimbType.Torso) end)
+    if limb ~= nil then
+        local cut = AfflictionPrefab.Prefabs["lacerations"]
+        if cut ~= nil then pcall(function() target.CharacterHealth.ApplyAffliction(limb, cut.Instantiate(dmg)) end) end
+        local bleed = AfflictionPrefab.Prefabs["bleeding"]
+        if bleed ~= nil then pcall(function() target.CharacterHealth.ApplyAffliction(limb, bleed.Instantiate(10)) end) end
+    end
+    setAmount(ch, SPIRIT, amount(ch, SPIRIT) - 10)
+    addAmount(ch, SEQ[seq].digest, 6)
+    reply("lotm.msg.dart_ok", COLOR_NORMAL, client)
+end
+
+-- air cannon (sequence 7): a compressed blast of air
+local function airCannon(client)
+    local ch = getChar()
+    if ch == nil then return end
+    local seq = currentSeq(ch)
+    if seq == nil or seq > 7 then reply("lotm.msg.need_seq7", COLOR_WARN, client) return end
+    if amount(ch, SPIRIT) < 20 then reply("lotm.msg.low_spirit", COLOR_WARN, client) return end
+    if not cdReady(ch, "cannon", 10) then reply("lotm.msg.cooldown", COLOR_WARN, client) return end
+
+    local target = aimTarget(ch, 420, 0.6)
+    if target == nil then reply("lotm.msg.no_target", COLOR_WARN, client) return end
+
+    local dmg = 24 * powerScale(ch)
+    local limb = nil
+    pcall(function() limb = target.AnimController.GetLimb(LimbType.Torso) end)
+    if limb ~= nil then
+        local blunt = AfflictionPrefab.Prefabs["internaldamage"]
+        if blunt ~= nil then pcall(function() target.CharacterHealth.ApplyAffliction(limb, blunt.Instantiate(dmg)) end) end
+        local stun = AfflictionPrefab.Prefabs["stun"]
+        if stun ~= nil then pcall(function() target.CharacterHealth.ApplyAffliction(limb, stun.Instantiate(2)) end) end
+    end
+    setAmount(ch, SPIRIT, amount(ch, SPIRIT) - 20)
+    addAmount(ch, SEQ[seq].digest, 8)
+    reply("lotm.msg.cannon_ok", COLOR_NORMAL, client)
+end
 -- illusion: monsters ignore you for 8 seconds
 local function castIllusion(client)
     local ch = getChar()
@@ -620,7 +725,7 @@ local function findOwnPackage()
     return found
 end
 
-local jumpKey, illusionKey, visionKey, transferKey = nil, nil, nil, nil
+local jumpKey, illusionKey, visionKey, transferKey, dartKey, cannonKey = nil, nil, nil, nil, nil, nil
 do
     local pkg = nil
     if SettingControl ~= nil then pkg = findOwnPackage() end
@@ -638,7 +743,9 @@ do
     illusionKey = load("IllusionKey")
     visionKey = load("VisionKey")
     transferKey = load("TransferKey")
-    print("[LOTM] keys jump=" .. tostring(jumpKey ~= nil) .. " illusion=" .. tostring(illusionKey ~= nil) .. " vision=" .. tostring(visionKey ~= nil) .. " transfer=" .. tostring(transferKey ~= nil))
+    dartKey = load("PaperDartKey")
+    cannonKey = load("AirCannonKey")
+    print("[LOTM] keys jump=" .. tostring(jumpKey ~= nil) .. " illusion=" .. tostring(illusionKey ~= nil) .. " vision=" .. tostring(visionKey ~= nil) .. " transfer=" .. tostring(transferKey ~= nil) .. " dart=" .. tostring(dartKey ~= nil) .. " cannon=" .. tostring(cannonKey ~= nil))
 end
 
 -- active: move wounds from the most injured limb to the least injured one
@@ -691,8 +798,8 @@ local function shiftWounds(client)
     if ch == nil then return end
     local seq = currentSeq(ch)
     if seq == nil or seq > 7 then reply("lotm.msg.need_seq7", COLOR_WARN, client) return end
-    if amount(ch, SPIRIT) < 25 then reply("lotm.msg.low_spirit", COLOR_WARN, client) return end
-    if not cdReady(ch, "shift", 25) then reply("lotm.msg.cooldown", COLOR_WARN, client) return end
+    if amount(ch, SPIRIT) < 40 then reply("lotm.msg.low_spirit", COLOR_WARN, client) return end
+    if not cdReady(ch, "shift", 45) then reply("lotm.msg.cooldown", COLOR_WARN, client) return end
 
     local maxhp = 100
     pcall(function() maxhp = ch.MaxHealth end)
@@ -768,7 +875,7 @@ local function shiftWounds(client)
         reply("lotm.msg.no_wound", COLOR_WARN, client)
         return
     end
-    setAmount(ch, SPIRIT, amount(ch, SPIRIT) - 25)
+    setAmount(ch, SPIRIT, amount(ch, SPIRIT) - 40)
     addAmount(ch, SEQ[seq].digest, 8)
     reply("lotm.msg.shift_ok", COLOR_NORMAL, client)
 end
@@ -789,6 +896,8 @@ Hook.Add("keyUpdate", "lotm.keys", function(deltaTime)
     if hit(illusionKey) then castIllusion(nil) end
     if hit(visionKey) then toggleVision(nil) end
     if hit(transferKey) then shiftWounds(nil) end
+    if hit(dartKey) then throwDart(nil) end
+    if hit(cannonKey) then airCannon(nil) end
 
     -- fallback for when the config service is unavailable
     if jumpKey == nil and Keys ~= nil then
@@ -817,7 +926,9 @@ local function paperSave(ch)
     if seq == nil then seq = currentSeq(ch) end
     if seq == nil or seq > 8 then return false end
     if countItem(ch, PAPER) <= 0 then return false end
-    if not cdReady(ch, "paper", 90) then return false end
+    local paperCd = 90
+    if seq <= 7 then paperCd = 70 end
+    if not cdReady(ch, "paper", paperCd) then return false end
 
     consumeItem(ch, PAPER)
     local maxhp = 100
@@ -1162,6 +1273,19 @@ Hook.Add("chatMessage", "lotm.chat", function(message, client)
     for _, a in ipairs(aliases("lotm.cmd.illusion")) do
         if message == a then
             castIllusion(client)
+            return true
+        end
+    end
+    for _, a in ipairs(aliases("lotm.cmd.dart")) do
+        if message == a then
+            throwDart(client)
+            return true
+        end
+    end
+
+    for _, a in ipairs(aliases("lotm.cmd.cannon")) do
+        if message == a then
+            airCannon(client)
             return true
         end
     end

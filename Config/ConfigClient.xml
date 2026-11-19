@@ -5,5 +5,7 @@
     <Setting Name="IllusionKey" Type="control" Value="G" />
     <Setting Name="VisionKey" Type="control" Value="V" />
     <Setting Name="TransferKey" Type="control" Value="H" />
+    <Setting Name="PaperDartKey" Type="control" Value="J" />
+    <Setting Name="AirCannonKey" Type="control" Value="K" />
   </Settings>
 </Configuration>

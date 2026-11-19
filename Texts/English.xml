@@ -195,6 +195,11 @@
   <lotm.kw.crew>crew,hurt,team</lotm.kw.crew>
   <!-- ================= Shift / paper ward ================= -->
   <lotm.cmd.shift>!shift</lotm.cmd.shift>
+  <lotm.cmd.dart>!dart</lotm.cmd.dart>
+  <lotm.cmd.cannon>!cannon</lotm.cmd.cannon>
+  <lotm.msg.dart_ok>A paper figure folds into a dart in your hand and buries itself in the target.</lotm.msg.dart_ok>
+  <lotm.msg.cannon_ok>Compressed air roars out.</lotm.msg.cannon_ok>
+  <lotm.msg.no_target>You are not aiming at anything.</lotm.msg.no_target>
   <lotm.msg.shift_ok>You shift the wounds away from the worst-injured limb.</lotm.msg.shift_ok>
   <lotm.msg.no_wound>No wounds on your legs to shift.</lotm.msg.no_wound>
   <afflictionname.lotm_paperward>Paper Ward</afflictionname.lotm_paperward>
@@ -202,5 +207,13 @@
   <LOTM_Pathways.TransferKey.DisplayName>Damage Shift</LOTM_Pathways.TransferKey.DisplayName>
   <LOTM_Pathways.TransferKey.DisplayCategory>Fool Pathway</LOTM_Pathways.TransferKey.DisplayCategory>
   <LOTM_Pathways.TransferKey.Tooltip>Press to shift leg wounds to your arms (requires Sequence 7, costs 25 spirituality)</LOTM_Pathways.TransferKey.Tooltip>
+
+  <LOTM_Pathways.PaperDartKey.DisplayName>Paper Dart</LOTM_Pathways.PaperDartKey.DisplayName>
+  <LOTM_Pathways.PaperDartKey.DisplayCategory>Fool Pathway</LOTM_Pathways.PaperDartKey.DisplayCategory>
+  <LOTM_Pathways.PaperDartKey.Tooltip>Spend a paper figure to throw a paper dart at the cursor (requires Sequence 8, costs 10 spirituality)</LOTM_Pathways.PaperDartKey.Tooltip>
+
+  <LOTM_Pathways.AirCannonKey.DisplayName>Air Cannon</LOTM_Pathways.AirCannonKey.DisplayName>
+  <LOTM_Pathways.AirCannonKey.DisplayCategory>Fool Pathway</LOTM_Pathways.AirCannonKey.DisplayCategory>
+  <LOTM_Pathways.AirCannonKey.Tooltip>Fire a compressed air blast at the cursor, dealing internal damage and stun (requires Sequence 7, costs 20 spirituality)</LOTM_Pathways.AirCannonKey.Tooltip>
 
 </infotexts>

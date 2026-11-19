@@ -196,6 +196,11 @@
   <lotm.kw.crew>队友,船员,同伴,crew,hurt,team</lotm.kw.crew>
   <!-- ================= 转移 / 纸人护佑 ================= -->
   <lotm.cmd.shift>!shift|!转移</lotm.cmd.shift>
+  <lotm.cmd.dart>!dart|!飞镖</lotm.cmd.dart>
+  <lotm.cmd.cannon>!cannon|!空气炮</lotm.cmd.cannon>
+  <lotm.msg.dart_ok>一张纸在你手里变成了飞镖，钉进了目标身上。</lotm.msg.dart_ok>
+  <lotm.msg.cannon_ok>压缩的空气轰然射出。</lotm.msg.cannon_ok>
+  <lotm.msg.no_target>你没有瞄准到任何目标。</lotm.msg.no_target>
   <lotm.msg.shift_ok>你把伤势从最重的部位转移到了另一处肢体。</lotm.msg.shift_ok>
   <lotm.msg.no_wound>腿上没有可以转移的伤。</lotm.msg.no_wound>
   <afflictionname.lotm_paperward>纸人护佑</afflictionname.lotm_paperward>
@@ -203,5 +208,13 @@
   <LOTM_Pathways.TransferKey.DisplayName>伤害转移</LOTM_Pathways.TransferKey.DisplayName>
   <LOTM_Pathways.TransferKey.DisplayCategory>愚者途径</LOTM_Pathways.TransferKey.DisplayCategory>
   <LOTM_Pathways.TransferKey.Tooltip>按下此键把腿上的伤转移到手臂（需要序列7，消耗 25 灵性）</LOTM_Pathways.TransferKey.Tooltip>
+
+  <LOTM_Pathways.PaperDartKey.DisplayName>化纸为兵</LOTM_Pathways.PaperDartKey.DisplayName>
+  <LOTM_Pathways.PaperDartKey.DisplayCategory>愚者途径</LOTM_Pathways.PaperDartKey.DisplayCategory>
+  <LOTM_Pathways.PaperDartKey.Tooltip>消耗一个纸人，把纸化作飞镖射向准星方向（需要序列8，消耗 10 灵性）</LOTM_Pathways.PaperDartKey.Tooltip>
+
+  <LOTM_Pathways.AirCannonKey.DisplayName>空气炮</LOTM_Pathways.AirCannonKey.DisplayName>
+  <LOTM_Pathways.AirCannonKey.DisplayCategory>愚者途径</LOTM_Pathways.AirCannonKey.DisplayCategory>
+  <LOTM_Pathways.AirCannonKey.Tooltip>朝准星方向轰出一发压缩空气弹，造成内伤与眩晕（需要序列7，消耗 20 灵性）</LOTM_Pathways.AirCannonKey.Tooltip>
 
 </infotexts>
