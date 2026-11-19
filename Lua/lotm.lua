@@ -269,9 +269,16 @@ Hook.Add("lotm.potion", "lotm.potion", function(effect, deltaTime, item, targets
 
     -- a mortal drinking anything above sequence 9 goes mad almost instantly
     if cur == nil and seq < 9 then
-        addAmount(ch, MADNESS, 100)
-        tell("lotm.msg.potion_skip", COLOR_BAD)
-        checkLoseControl(ch)
+        local rolled = math.random()
+        print("[LOTM] mortal drank seq=" .. tostring(seq) .. " roll=" .. string.format("%.3f", rolled))
+        if rolled < 0.99 then
+            addAmount(ch, MADNESS, 100)
+            tell("lotm.msg.potion_skip", COLOR_BAD)
+            checkLoseControl(ch)
+        else
+            addAmount(ch, MADNESS, 85)
+            tell("lotm.msg.potion_skip_survive", COLOR_WARN)
+        end
         return true
     end
     local digest = 0
@@ -669,56 +676,81 @@ end)
 local tracked = {}
 local dropped = {}
 
--- paper figure also saves you from affliction death (bleeding, lacerations, etc.)
+-- ============================================================
+-- death watch: save the character BEFORE the death routine finishes
+-- ============================================================
+local lastDeathWatch = 0
+
+local function paperSave(ch)
+    local seq = tracked[ch.ID]
+    if seq == nil then seq = currentSeq(ch) end
+    if seq == nil or seq > 8 then return false end
+    if countItem(ch, PAPER) <= 0 then return false end
+    if not cdReady(ch, "paper", 90) then return false end
+
+    consumeItem(ch, PAPER)
+    local maxhp = 100
+    pcall(function() maxhp = ch.MaxHealth end)
+    setVitality(ch, maxhp * 0.15)
+    applyAmount(ch, "bleeding", 25)
+    applyAmount(ch, "internaldamage", 25)
+    addAmount(ch, MADNESS, 25)
+    addAmount(ch, SEQ[seq].digest, 10)
+    print("[LOTM] paper figure saved " .. tostring(ch.Name))
+    tell("lotm.msg.paper_save", COLOR_BAD)
+    return true
+end
+
+-- catch near-zero vitality a few times per second, before the engine kills the character
+Hook.Add("think", "lotm.deathwatch", function(deltaTime)
+    local now = 0
+    pcall(function() now = os.clock() end)
+    if now - lastDeathWatch < 0.15 then return end
+    lastDeathWatch = now
+
+    pcall(function()
+        for ch in Character.CharacterList do
+            if ch ~= nil and ch.IsHuman and not ch.IsDead then
+                local hp, maxhp = 100, 100
+                pcall(function() hp = ch.Health; maxhp = ch.MaxHealth end)
+                if maxhp ~= nil and maxhp > 0 and hp <= maxhp * 0.03 then
+                    paperSave(ch)
+                end
+            end
+        end
+    end)
+end)
+
+-- fallback: if death still happens, revive and drop the characteristic
 Hook.Add("character.death", "lotm.death", function(character, causeAffliction, causeDeathType)
     if character == nil then return end
     local human = false
     pcall(function() human = character.IsHuman end)
     if not human then return end
 
+    if paperSave(character) then
+        pcall(function() character.Revive(false, true) end)
+        local maxhp = 100
+        pcall(function() maxhp = character.MaxHealth end)
+        setVitality(character, maxhp * 0.15)
+        return
+    end
+
+    -- drop the beyonder characteristic exactly once
     local seq = tracked[character.ID]
     if seq == nil then seq = currentSeq(character) end
-    if seq == nil or seq > 8 then return end
-    if countItem(character, PAPER) <= 0 then return end
-    if not cdReady(character, "paper", 90) then return end
-
-    consumeItem(character, PAPER)
-    local maxhp = 100
-    pcall(function() maxhp = character.MaxHealth end)
-    tracked[character.ID] = nil
-    pcall(function() character.Revive(false, true) end)
-    setVitality(character, maxhp * 0.15)
-    applyAmount(character, "bleeding", 25)
-    applyAmount(character, "internaldamage", 25)
-    addAmount(character, MADNESS, 25)
-    addAmount(character, SEQ[seq].digest, 10)
-    tell("lotm.msg.paper_save", COLOR_BAD)
-end)
-local lastLogic = 0
-
-local function deathDrop()
-    for other in Character.CharacterList do
-        if other ~= nil and other.IsHuman then
-            if other.IsDead then
-                -- only drop once per character; corpses keep their buffs, so never re-track
-                if tracked[other.ID] ~= nil and not dropped[other.ID] then
-                    dropped[other.ID] = true
-                    local seq = tracked[other.ID]
-                    tracked[other.ID] = nil
-                    local prefab = ItemPrefab.GetItemPrefab(SEQ[seq].char)
-                    if prefab ~= nil then
-                        print("[LOTM] dropping characteristic seq=" .. tostring(seq))
-                        Entity.Spawner.AddItemToSpawnQueue(prefab, other.WorldPosition, nil, nil, nil)
-                    end
-                end
-            else
-                local s = currentSeq(other)
-                if s ~= nil then tracked[other.ID] = s end
-            end
+    if seq ~= nil and not dropped[character.ID] then
+        dropped[character.ID] = true
+        tracked[character.ID] = nil
+        local prefab = ItemPrefab.GetItemPrefab(SEQ[seq].char)
+        if prefab ~= nil then
+            print("[LOTM] dropping characteristic seq=" .. tostring(seq))
+            pcall(function()
+                Entity.Spawner.AddItemToSpawnQueue(prefab, character.WorldPosition, nil, nil, nil)
+            end)
         end
     end
-end
-
+end)
 local function logicTick()
     local ch = Character.Controlled
     if ch ~= nil and not ch.IsDead then

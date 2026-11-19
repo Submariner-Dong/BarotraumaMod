@@ -123,6 +123,7 @@
   <lotm.msg.losecontrol>Something pushed your mind aside. You have lost control.</lotm.msg.losecontrol>
   <lotm.msg.potion_same>The potion is already in your blood. Another bottle will only deepen the madness.</lotm.msg.potion_same>
   <lotm.msg.potion_skip>You drank a potion far above your rank. It detonates inside you.</lotm.msg.potion_skip>
+  <lotm.msg.potion_skip_survive>You drank a potion far above your rank... this time you survive, but your mind is full of screaming.</lotm.msg.potion_skip_survive>
   <lotm.msg.potion_ok>The potion is accepted by your body.</lotm.msg.potion_ok>
   <lotm.msg.potion_pain>Agony tears through your mind as you ascend...</lotm.msg.potion_pain>
   <lotm.msg.potion_reckless>You force an ascension with almost no digestion. Your flesh screams...</lotm.msg.potion_reckless>
