@@ -641,7 +641,43 @@ do
     print("[LOTM] keys jump=" .. tostring(jumpKey ~= nil) .. " illusion=" .. tostring(illusionKey ~= nil) .. " vision=" .. tostring(visionKey ~= nil) .. " transfer=" .. tostring(transferKey ~= nil))
 end
 
--- active: move leg injuries to the arms (sequence 7)
+-- active: move wounds from the most injured limb to the least injured one
+local FALLBACK_WOUND_IDS = { "damage", "lacerations", "bleeding", "burn", "gunshotwound", "bitewounds", "deepwounds", "internaldamage", "acidburn" }
+
+local function limbWoundList(ch, limb)
+    local out = {}
+    pcall(function()
+        for aff in ch.CharacterHealth.GetAllAfflictions() do
+            local l = nil
+            pcall(function() l = ch.CharacterHealth.GetAfflictionLimb(aff) end)
+            if l ~= nil and l == limb then
+                local id = tostring(aff.Identifier)
+                if string.sub(id, 1, 4) ~= "lotm" then
+                    local s = 0
+                    pcall(function() s = aff.Strength end)
+                    if s ~= nil and s > 0 then
+                        out[#out + 1] = { id = id, strength = s }
+                    end
+                end
+            end
+        end
+    end)
+    if #out == 0 then
+        for _, id in ipairs(FALLBACK_WOUND_IDS) do
+            local a = nil
+            pcall(function() a = ch.CharacterHealth.GetAffliction(id, limb) end)
+            if a ~= nil then
+                local s = 0
+                pcall(function() s = a.Strength end)
+                if s ~= nil and s > 0 then
+                    out[#out + 1] = { id = id, strength = s }
+                end
+            end
+        end
+    end
+    return out
+end
+
 local function shiftWounds(client)
     local ch = getChar()
     if ch == nil then return end
@@ -655,31 +691,37 @@ local function shiftWounds(client)
     if maxhp == nil or maxhp <= 0 then maxhp = 100 end
     local vs = maxhp / 100
 
-    local moved = 0
-    local limbPairs = { { LimbType.LeftLeg, LimbType.LeftArm }, { LimbType.RightLeg, LimbType.RightArm } }
-    for _, pair in ipairs(limbPairs) do
-        local src, dst = nil, nil
-        pcall(function() src = ch.AnimController.GetLimb(pair[1]) end)
-        pcall(function() dst = ch.AnimController.GetLimb(pair[2]) end)
-        if src ~= nil and dst ~= nil then
-            for _, id in ipairs({ "damage", "lacerations", "bleeding", "burn" }) do
-                local a = nil
-                pcall(function() a = ch.CharacterHealth.GetAffliction(id, src) end)
-                if a ~= nil then
-                    local strength = 0
-                    pcall(function() strength = a.Strength end)
-                    if strength ~= nil and strength > 1 then
-                        local amount = strength * 0.6
-                        pcall(function() ch.CharacterHealth.ReduceAfflictionOnLimb(src, id, amount, nil, nil) end)
-                        local prefab = AfflictionPrefab.Prefabs[id]
-                        if prefab ~= nil then
-                            pcall(function() ch.CharacterHealth.ApplyAffliction(dst, prefab.Instantiate(amount * vs)) end)
-                        end
-                        moved = moved + amount
-                    end
-                end
-            end
+    local limbs = {}
+    for _, lt in ipairs({ LimbType.Torso, LimbType.LeftArm, LimbType.RightArm, LimbType.LeftLeg, LimbType.RightLeg }) do
+        local limb = nil
+        pcall(function() limb = ch.AnimController.GetLimb(lt) end)
+        if limb ~= nil then
+            local list = limbWoundList(ch, limb)
+            local total = 0
+            for _, w in ipairs(list) do total = total + w.strength end
+            limbs[#limbs + 1] = { limb = limb, list = list, total = total }
         end
+    end
+
+    table.sort(limbs, function(a, b) return a.total > b.total end)
+    if #limbs < 2 then reply("lotm.msg.no_wound", COLOR_WARN, client) return end
+
+    local src = limbs[1]
+    local dst = limbs[#limbs]
+    if src.total <= 1 then
+        reply("lotm.msg.no_wound", COLOR_WARN, client)
+        return
+    end
+
+    local moved = 0
+    for _, w in ipairs(src.list) do
+        local amount = w.strength * 0.6
+        pcall(function() ch.CharacterHealth.ReduceAfflictionOnLimb(src.limb, w.id, amount, nil, nil) end)
+        local prefab = AfflictionPrefab.Prefabs[w.id]
+        if prefab ~= nil then
+            pcall(function() ch.CharacterHealth.ApplyAffliction(dst.limb, prefab.Instantiate(amount * vs)) end)
+        end
+        moved = moved + amount
     end
 
     if moved <= 0 then
@@ -723,6 +765,7 @@ end)
 -- ============================================================
 local tracked = {}
 local dropped = {}
+local wardUntil = {}
 
 -- ============================================================
 -- death watch: save the character BEFORE the death routine finishes
@@ -739,9 +782,12 @@ local function paperSave(ch)
     consumeItem(ch, PAPER)
     local maxhp = 100
     pcall(function() maxhp = ch.MaxHealth end)
-    setVitality(ch, maxhp * 0.30)
+    setVitality(ch, maxhp * 0.35)
     setAmount(ch, "lotm_paperward", 100)
     pcall(function() ch.CharacterHealth.ReduceAfflictionOnAllLimbs("pressure", 1000, nil, nil) end)
+    pcall(function() ch.CharacterHealth.ReduceAfflictionOnAllLimbs("oxygenlow", 1000, nil, nil) end)
+    wardUntil[ch.ID] = nowSeconds() + 5
+    pcall(function() ch.Unkillable = true end)
     applyAmount(ch, "bleeding", 15)
     applyAmount(ch, "internaldamage", 15)
     addAmount(ch, MADNESS, 25)
@@ -778,12 +824,24 @@ Hook.Add("character.death", "lotm.death", function(character, causeAffliction, c
     pcall(function() human = character.IsHuman end)
     if not human then return end
 
+    -- if a paper ward is still active, force the revival without spending another figure
+    if wardUntil[character.ID] ~= nil and nowSeconds() < wardUntil[character.ID] then
+        pcall(function() character.Revive(false, true) end)
+        local maxhp = 100
+        pcall(function() maxhp = character.MaxHealth end)
+        setVitality(character, maxhp * 0.35)
+        return
+    end
+
     if paperSave(character) then
         pcall(function() character.Revive(false, true) end)
         local maxhp = 100
         pcall(function() maxhp = character.MaxHealth end)
-        setVitality(character, maxhp * 0.30)
+        setVitality(character, maxhp * 0.35)
         setAmount(character, "lotm_paperward", 100)
+        pcall(function() character.CharacterHealth.ReduceAfflictionOnAllLimbs("oxygenlow", 1000, nil, nil) end)
+        wardUntil[character.ID] = nowSeconds() + 5
+        pcall(function() character.Unkillable = true end)
         return
     end
 
@@ -822,6 +880,10 @@ local function logicTick()
         if illusionUntil[ch.ID] ~= nil and nowSeconds() > illusionUntil[ch.ID] then
             illusionUntil[ch.ID] = nil
             setAmount(ch, ILLUSION, 0)
+        end
+        if wardUntil[ch.ID] ~= nil and nowSeconds() > wardUntil[ch.ID] then
+            wardUntil[ch.ID] = nil
+            pcall(function() ch.Unkillable = false end)
         end
         checkLoseControl(ch)
     end
