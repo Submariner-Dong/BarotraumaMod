@@ -195,7 +195,7 @@
   <lotm.kw.crew>crew,hurt,team</lotm.kw.crew>
   <!-- ================= Shift / paper ward ================= -->
   <lotm.cmd.shift>!shift</lotm.cmd.shift>
-  <lotm.msg.shift_ok>You shift the wounds from your legs to your arms.</lotm.msg.shift_ok>
+  <lotm.msg.shift_ok>You shift the wounds away from the worst-injured limb.</lotm.msg.shift_ok>
   <lotm.msg.no_wound>No wounds on your legs to shift.</lotm.msg.no_wound>
   <afflictionname.lotm_paperward>Paper Ward</afflictionname.lotm_paperward>
   <afflictiondescription.lotm_paperward>A brief ward left behind when a paper figure takes a lethal blow: 4 seconds of immunity to damage and pressure.</afflictiondescription.lotm_paperward>

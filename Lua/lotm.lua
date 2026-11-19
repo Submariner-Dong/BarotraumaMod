@@ -678,6 +678,14 @@ local function limbWoundList(ch, limb)
     return out
 end
 
+-- explicit destination preference: legs -> arms, torso -> legs, arms -> legs
+local SHIFT_DEST = {
+    [LimbType.LeftLeg]  = LimbType.LeftArm,
+    [LimbType.RightLeg] = LimbType.RightArm,
+    [LimbType.LeftArm]  = LimbType.LeftLeg,
+    [LimbType.RightArm] = LimbType.RightLeg,
+    [LimbType.Torso]    = LimbType.LeftLeg,
+}
 local function shiftWounds(client)
     local ch = getChar()
     if ch == nil then return end
@@ -699,7 +707,7 @@ local function shiftWounds(client)
             local list = limbWoundList(ch, limb)
             local total = 0
             for _, w in ipairs(list) do total = total + w.strength end
-            limbs[#limbs + 1] = { limb = limb, list = list, total = total }
+            limbs[#limbs + 1] = { limb = limb, list = list, total = total, lt = lt }
         end
     end
 
@@ -707,8 +715,25 @@ local function shiftWounds(client)
     if #limbs < 2 then reply("lotm.msg.no_wound", COLOR_WARN, client) return end
 
     local src = limbs[1]
-    local dst = limbs[#limbs]
     if src.total <= 1 then
+        reply("lotm.msg.no_wound", COLOR_WARN, client)
+        return
+    end
+
+    -- pick the destination: legs go to arms, arms/torso go to legs
+    local dst = nil
+    local wanted = SHIFT_DEST[src.lt]
+    if wanted ~= nil then
+        for _, entry in ipairs(limbs) do
+            if entry.lt == wanted then dst = entry; break end
+        end
+    end
+    if dst == nil or dst.limb == src.limb then
+        for i = #limbs, 1, -1 do
+            if limbs[i].limb ~= src.limb then dst = limbs[i]; break end
+        end
+    end
+    if dst == nil then
         reply("lotm.msg.no_wound", COLOR_WARN, client)
         return
     end
